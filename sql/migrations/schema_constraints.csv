@@ -1,0 +1,48 @@
+TABLE_NAME,CONSTRAINT_TYPE,CONSTRAINT_NAME,columns_in_table,referenced_table,referenced_columns
+cell_type,PRIMARY KEY,PRIMARY,cell_type_id,,
+cell_type,UNIQUE,uq_cell_type_name,cell_type_name,,
+disease,PRIMARY KEY,PRIMARY,disease_id,,
+disease,UNIQUE,uq_disease_name,disease_name,,
+functional_validation,FOREIGN KEY,fk_fv_call,call_id,sample_variant_call,call_id
+functional_validation,FOREIGN KEY,fk_fv_variant,variant_id,variants,variant_id
+functional_validation,PRIMARY KEY,PRIMARY,validation_id,,
+genes,FOREIGN KEY,fk_genes_reference_genome,ref_genome_id,reference_genome,ref_genome_id
+genes,PRIMARY KEY,PRIMARY,gene_id,,
+genes,UNIQUE,uq_gene_symbol_ref,gene_symbol, ref_genome_id,,
+literature_driver_variants,FOREIGN KEY,fk_ldv_disease,disease_id,disease,disease_id
+literature_driver_variants,FOREIGN KEY,fk_ldv_lifted_ref_genome,lifted_ref_genome_id,reference_genome,ref_genome_id
+literature_driver_variants,FOREIGN KEY,fk_ldv_ref_genome,paper_ref_genome_id,reference_genome,ref_genome_id
+literature_driver_variants,FOREIGN KEY,fk_ldv_study,study_id,study,study_id
+literature_driver_variants,PRIMARY KEY,PRIMARY,literature_variant_id,,
+literature_driver_variants,UNIQUE,uq_ldv_natural_hash,natural_key_sha,,
+literature_driver_variants_v1_snapshot,PRIMARY KEY,PRIMARY,literature_variant_id,,
+literature_driver_variants_v1_snapshot,UNIQUE,uq_ldv_v1_natural_hash,natural_key_sha,,
+literature_variant_study,FOREIGN KEY,fk_lvs_study,study_id,study,study_id
+literature_variant_study,FOREIGN KEY,fk_lvs_variant,literature_variant_id,literature_driver_variants,literature_variant_id
+literature_variant_study,PRIMARY KEY,PRIMARY,literature_variant_study_id,,
+literature_variant_study,UNIQUE,uq_lvs_variant_study,literature_variant_id, study_id,,
+literature_variant_study_v1_snapshot,PRIMARY KEY,PRIMARY,literature_variant_study_id,,
+literature_variant_study_v1_snapshot,UNIQUE,uq_lvs_v1_variant_study,literature_variant_id, study_id,,
+protein_domain,PRIMARY KEY,PRIMARY,protein_domain_id,,
+protein_domain,UNIQUE,uq_protein_domain_name,domain_name,,
+reference_genome,PRIMARY KEY,PRIMARY,ref_genome_id,,
+reference_genome,UNIQUE,uq_reference_genome_name,ref_genome_name,,
+sample,FOREIGN KEY,fk_sample_disease,disease_id,disease,disease_id
+sample,PRIMARY KEY,PRIMARY,sample_id,,
+sample_variant_call,FOREIGN KEY,fk_call_cell_type,cell_type_id,cell_type,cell_type_id
+sample_variant_call,FOREIGN KEY,fk_call_seqexp,seq_exp_id,sequencing_experiment,seq_exp_id
+sample_variant_call,FOREIGN KEY,fk_call_variant,variant_id,variants,variant_id
+sample_variant_call,PRIMARY KEY,PRIMARY,call_id,,
+sample_variant_call,UNIQUE,uq_call_unique,seq_exp_id, cell_type_id, variant_id,,
+sequencing_experiment,FOREIGN KEY,fk_seqexp_sample,sample_id,sample,sample_id
+sequencing_experiment,FOREIGN KEY,fk_seqexp_study,study_id,study,study_id
+sequencing_experiment,PRIMARY KEY,PRIMARY,seq_exp_id,,
+study,PRIMARY KEY,PRIMARY,study_id,,
+study,UNIQUE,uq_study_pmid,pmid,,
+variant_annotation,FOREIGN KEY,fk_varann_protein_domain,protein_domain_id,protein_domain,protein_domain_id
+variant_annotation,FOREIGN KEY,fk_varann_variant,variant_id,variants,variant_id
+variant_annotation,PRIMARY KEY,PRIMARY,ann_id,,
+variants,FOREIGN KEY,fk_variants_gene,gene_id,genes,gene_id
+variants,FOREIGN KEY,fk_variants_reference_genome,ref_genome_id,reference_genome,ref_genome_id
+variants,PRIMARY KEY,PRIMARY,variant_id,,
+variants,UNIQUE,uq_variant_locus,ref_genome_id, chrom, pos, ref, alt,,

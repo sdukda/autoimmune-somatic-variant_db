@@ -1,0 +1,163 @@
+<?php
+// ui/public/gene_v2.php
+require __DIR__ . "/../config/bootstrap.php"; // provides $pdo + h()
+
+$pageTitle = "Gene";
+require __DIR__ . "/partials/header.php";
+
+// Input
+$q = trim($_GET["q"] ?? "");
+$gene = strtoupper($q);
+
+// If no query, show list of genes (from summary view)
+$geneList = [];
+if ($gene === "") {
+  $geneList = $pdo->query("
+    SELECT gene_symbol, n_unique_variants, n_studies, n_diseases
+    FROM v_literature_summary_by_gene
+    ORDER BY gene_symbol
+  ")->fetchAll();
+}
+
+// If gene is provided, show variants for that gene (flat view)
+$rows = [];
+if ($gene !== "") {
+  $stmt = $pdo->prepare("
+    SELECT
+      literature_variant_id,
+      gene_symbol,
+      cDNA_HGVS,
+      protein_change,
+      variant_type,
+      is_driver,
+
+      disease_name,
+      disease_category,
+      disease_ontology_id,
+
+      cell_type_name,
+      cell_type_ontology_id,
+
+      study_id,
+      study_name_short,
+      study_name,
+      evidence_type
+    FROM v_literature_variants_flat
+    WHERE gene_symbol = :gene
+    ORDER BY disease_name, study_id, literature_variant_id
+    LIMIT 2000
+  ");
+  $stmt->execute([":gene" => $gene]);
+  $rows = $stmt->fetchAll();
+}
+?>
+
+<div class="card">
+  <h2>Gene search</h2>
+
+  <form method="get" action="/gene_v2.php" class="form-row">
+    <label for="q"><b>Gene symbol</b> (e.g., DNMT3A, TET2, STAT3)</label><br>
+    <input id="q" name="q" type="text" value="<?= h($q) ?>" placeholder="Enter gene symbol..." />
+    <button type="submit">Search</button>
+    <?php if ($q !== ""): ?>
+      <a class="btn-secondary" href="/gene_v2.php">Clear</a>
+    <?php endif; ?>
+  </form>
+
+  <p class="small">
+    Tip: you can click a <b>Variant ID</b>, <b>Disease</b>, or <b>Study</b> to jump to its page.
+  </p>
+</div>
+
+<?php if ($gene === ""): ?>
+
+  <div class="card">
+    <h3>Browse all genes</h3>
+    <table>
+      <tr>
+        <th>Gene</th>
+        <th># Variants</th>
+        <th># Studies</th>
+        <th># Diseases</th>
+      </tr>
+      <?php foreach ($geneList as $g): ?>
+        <tr>
+          <td><a href="/gene_v2.php?q=<?= urlencode($g["gene_symbol"]) ?>"><?= h($g["gene_symbol"]) ?></a></td>
+          <td><?= (int)$g["n_unique_variants"] ?></td>
+          <td><?= (int)$g["n_studies"] ?></td>
+          <td><?= (int)$g["n_diseases"] ?></td>
+        </tr>
+      <?php endforeach; ?>
+    </table>
+  </div>
+
+<?php else: ?>
+
+  <div class="card">
+    <h3>Results for gene: <?= h($gene) ?></h3>
+
+    <?php if (count($rows) === 0): ?>
+      <p>No variants found for this gene.</p>
+    <?php else: ?>
+      <div class="small">
+        Showing <?= count($rows) ?> rows (limit 2000).
+      </div>
+
+      <table>
+        <tr>
+          <th>Variant ID</th>
+          <th>cDNA (HGVS)</th>
+          <th>Protein</th>
+          <th>Type</th>
+          <th>Driver label</th>
+
+          <th>Disease</th>
+          <th>Category</th>
+          <th>DOID</th>
+
+          <th>Cell type</th>
+          <th>CL ID</th>
+
+          <th>Study</th>
+          <th>Evidence</th>
+        </tr>
+
+        <?php foreach ($rows as $r): ?>
+          <tr>
+            <td>
+              <a href="/variant_v2.php?literature_variant_id=<?= (int)$r["literature_variant_id"] ?>">
+                <?= (int)$r["literature_variant_id"] ?>
+              </a>
+            </td>
+
+            <td><?= h($r["cDNA_HGVS"] ?? "") ?></td>
+            <td><?= h($r["protein_change"] ?? "") ?></td>
+            <td><?= h($r["variant_type"] ?? "") ?></td>
+            <td><?= h($r["is_driver"] ?? "") ?></td>
+
+            <td>
+              <a href="/disease_v2.php?disease=<?= urlencode($r["disease_name"]) ?>">
+                <?= h($r["disease_name"]) ?>
+              </a>
+            </td>
+            <td><?= h($r["disease_category"] ?? "") ?></td>
+            <td><?= h($r["disease_ontology_id"] ?? "") ?></td>
+
+            <td><?= h($r["cell_type_name"] ?? "") ?></td>
+            <td><?= h($r["cell_type_ontology_id"] ?? "") ?></td>
+
+            <td>
+              <a href="/study_v2.php?study_id=<?= (int)$r["study_id"] ?>">
+                <?= h($r["study_name_short"] ?? ("Study " . (int)$r["study_id"])) ?>
+              </a>
+            </td>
+            <td><?= h($r["evidence_type"] ?? "") ?></td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    <?php endif; ?>
+  </div>
+
+<?php endif; ?>
+
+<?php require __DIR__ . "/partials/footer.php"; ?>

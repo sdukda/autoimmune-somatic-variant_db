@@ -1,0 +1,56 @@
+TABLE_NAME,INDEX_NAME,is_unique,INDEX_TYPE,index_columns
+cell_type,idx_cell_type_ontology_id,NO,BTREE,cell_type_ontology_id
+cell_type,PRIMARY,YES,BTREE,cell_type_id
+cell_type,uq_cell_type_name,YES,BTREE,cell_type_name
+disease,idx_disease_ontology_id,NO,BTREE,disease_ontology_id
+disease,PRIMARY,YES,BTREE,disease_id
+disease,uq_disease_name,YES,BTREE,disease_name
+functional_validation,idx_fv_call_id,NO,BTREE,call_id
+functional_validation,idx_fv_variant_id,NO,BTREE,variant_id
+functional_validation,PRIMARY,YES,BTREE,validation_id
+genes,idx_genes_ref_genome_id,NO,BTREE,ref_genome_id
+genes,PRIMARY,YES,BTREE,gene_id
+genes,uq_gene_symbol_ref,YES,BTREE,gene_symbol, ref_genome_id
+literature_driver_variants,fk_ldv_lifted_ref_genome,NO,BTREE,lifted_ref_genome_id
+literature_driver_variants,fk_ldv_ref_genome,NO,BTREE,paper_ref_genome_id
+literature_driver_variants,idx_ldv_disease,NO,BTREE,disease_id
+literature_driver_variants,idx_ldv_gene,NO,BTREE,gene_symbol
+literature_driver_variants,idx_ldv_study,NO,BTREE,study_id
+literature_driver_variants,PRIMARY,YES,BTREE,literature_variant_id
+literature_driver_variants,uq_ldv_natural_hash,YES,BTREE,natural_key_sha
+literature_driver_variants_v1_snapshot,idx_ldv_v1_disease,NO,BTREE,disease_id
+literature_driver_variants_v1_snapshot,idx_ldv_v1_gene,NO,BTREE,gene_symbol
+literature_driver_variants_v1_snapshot,PRIMARY,YES,BTREE,literature_variant_id
+literature_driver_variants_v1_snapshot,uq_ldv_v1_natural_hash,YES,BTREE,natural_key_sha
+literature_variant_study,fk_lvs_study,NO,BTREE,study_id
+literature_variant_study,PRIMARY,YES,BTREE,literature_variant_study_id
+literature_variant_study,uq_lvs_variant_study,YES,BTREE,literature_variant_id, study_id
+literature_variant_study_v1_snapshot,idx_lvs_v1_study,NO,BTREE,study_id
+literature_variant_study_v1_snapshot,idx_lvs_v1_variant,NO,BTREE,literature_variant_id
+literature_variant_study_v1_snapshot,PRIMARY,YES,BTREE,literature_variant_study_id
+literature_variant_study_v1_snapshot,uq_lvs_v1_variant_study,YES,BTREE,literature_variant_id, study_id
+protein_domain,PRIMARY,YES,BTREE,protein_domain_id
+protein_domain,uq_protein_domain_name,YES,BTREE,domain_name
+reference_genome,PRIMARY,YES,BTREE,ref_genome_id
+reference_genome,uq_reference_genome_name,YES,BTREE,ref_genome_name
+sample,idx_sample_disease_id,NO,BTREE,disease_id
+sample,PRIMARY,YES,BTREE,sample_id
+sample_variant_call,idx_call_cell_type_id,NO,BTREE,cell_type_id
+sample_variant_call,idx_call_seq_exp_id,NO,BTREE,seq_exp_id
+sample_variant_call,idx_call_variant_id,NO,BTREE,variant_id
+sample_variant_call,PRIMARY,YES,BTREE,call_id
+sample_variant_call,uq_call_unique,YES,BTREE,seq_exp_id, cell_type_id, variant_id
+sequencing_experiment,idx_seqexp_sample_id,NO,BTREE,sample_id
+sequencing_experiment,idx_seqexp_study_id,NO,BTREE,study_id
+sequencing_experiment,idx_seqexp_technology,NO,BTREE,technology
+sequencing_experiment,PRIMARY,YES,BTREE,seq_exp_id
+study,idx_study_year,NO,BTREE,year
+study,PRIMARY,YES,BTREE,study_id
+study,uq_study_pmid,YES,BTREE,pmid
+variant_annotation,idx_varann_protein_domain_id,NO,BTREE,protein_domain_id
+variant_annotation,idx_varann_variant_id,NO,BTREE,variant_id
+variant_annotation,PRIMARY,YES,BTREE,ann_id
+variants,idx_variants_chrom_pos,NO,BTREE,chrom, pos
+variants,idx_variants_gene_id,NO,BTREE,gene_id
+variants,PRIMARY,YES,BTREE,variant_id
+variants,uq_variant_locus,YES,BTREE,ref_genome_id, chrom, pos, ref, alt

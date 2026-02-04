@@ -1,0 +1,37 @@
+﻿literature_variant_id,gene_symbol,genomic_variant,ref_genome,ucsc_consequence,variant_consequence_detail,curation_source 
+135,ARID1A ,chr1:26773879 G >GT,GRCh38,frameshift insertion,frameshift insertion,UCSC
+137,ARID1A ,chr1:26774488 CTTCC>CAAG,GRCh38,frameshift deletion,frameshift deletion,UCSC
+138,ARID1A ,chr1:26774701 CT >C,GRCh38,frameshift deletion,frameshift deletion,UCSC
+139,ARID1A ,chr1:26779908 AC>A,GRCh38,inframe deletion,inframe deletion,UCSC
+140,ATM,chr11:108294993 AG>A,GRCh38,frameshift deletion,frameshift deletion,UCSC
+141,ATM,chr11:108343316 TA>T,GRCh38,inframe deletion,inframe deletion,UCSC
+145,BCOR,chrX:40062829 GCA>G,GRCh38,frameshift deletion,frameshift deletion,UCSC
+147,BCOR,chrX:40073154 G>GT,GRCh38,inframe insertion,inframe insertion,UCSC
+154,FBXW7,chr4:152322920 GT>G                     ,GRCh38,inframe deletion,inframe deletion,UCSC
+162,FBXW8,chr4:152337819 AATGAAGTCTC>AT           ,GRCh38,inframe deletion,inframe deletion,UCSC
+163,HNRNPF,chr10:43386939 CA>C         ,GRCh38,inframe deletion,inframe deletion,UCSC
+172,NFKBIZ,chr3:101849742 TCGCCGCCCGC>T            ,GRCh38,frameshift deletion,frameshift deletion,UCSC
+174,NFKBIZ,chr3:101855841 T>TA                     ,GRCh38,frameshift insertion,frameshift insertion,UCSC
+175,NOS2,chr17:27764115 C>CA                      ,GRCh38,frameshift insertion,frameshift insertion,UCSC
+176,NOS2,chr17:27781060 T>TC                     ,GRCh38,frameshift insertion,frameshift insertion,UCSC
+178,NOS2,chr17:27798790 AT>A                     ,GRCh38,frameshift deletion,frameshift deletion,UCSC
+179,PIGR,chr1:206930319 AG>A                    ,GRCh38,inframe deletion,inframe deletion,UCSC
+182,PIGR,chr1:206932560 C>CA                     ,GRCh38,frameshift insertion,frameshift insertion,UCSC
+183,PIGR,chr1:206934559 T>TC                     ,GRCh38,inframe insertion,inframe insertion,UCSC
+184,PIGR,chr1:206935606 T>TG                      ,GRCh38,inframe insertion,inframe insertion,UCSC
+185,PIGR,chr1:206937547 T>TAC                      ,GRCh38,inframe insertion,inframe insertion,UCSC
+186,PIGR,chr1:206937622 G> GGTACA                  ,GRCh38,inframe insertion,inframe insertion,UCSC
+187,RNF43,chr17:58358585 CG>C                     ,GRCh38,inframe deletion,inframe deletion,UCSC
+188,RNF43,chr17:58358620 A>AGGGCCCAT                      ,GRCh38,inframe insertion,inframe insertion,UCSC
+189,SMAD2,chr18:47848556 TG>T                     ,GRCh38,inframe deletion,inframe deletion,UCSC
+190,SOX9,chr17:72121575 A>AG                     ,GRCh38,frameshift insertion,frameshift insertion,UCSC
+191,SOX9,chr17:72121699 GCACGTCAA> GGGACGT             ,GRCh38,frameshift delins,frameshift delins,UCSC
+203,ZFP36L2,chr2:43225046 T>TG                     ,GRCh38,inframe insertion,inframe insertion,UCSC
+204,ZFP36L2,chr2:43225688 G> GCGTCC                     ,GRCh38,inframe insertion,inframe insertion,UCSC
+209,BCORL1,chrX:130056034 T>TC                     ,GRCh38,frameshift insertion,frameshift insertion,UCSC
+219,RNF43,chr17:58358359 ATGACAG>AGTGCT    ,GRCh38,inframe delins,inframe delins,UCSC
+221,RNF43,chr17:58415454 TG>T                     ,GRCh38,inframe deletion,inframe deletion,UCSC
+222,SMAD3,chr15:67066256 GTCAAGAGCCTGGTCAAGAAAC>G         ,GRCh38,frameshift deletion,frameshift deletion,UCSC
+223,STAG2,chrX:124071290 T>TA                     ,GRCh38,frameshift insertion,frameshift insertion,UCSC
+224,TP53,chr17:7676063 G>GT                      ,GRCh38,inframe insertion,inframe insertion,UCSC
+225,ZFP36L2,chr2:43225031G>GGCTGTGGT,GRCh38,inframe insertion,inframe insertion,UCSC

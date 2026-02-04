@@ -1,0 +1,84 @@
+<?php
+// ui/public/variants_v2.php
+require __DIR__ . "/../config/bootstrap.php";
+
+$pageTitle = "Variants";
+require __DIR__ . "/partials/header.php";
+
+/*
+  Browse all variants (coordinate-based)
+  Uses v_literature_summary_by_variant_coords
+
+  NOTE:
+  - This page links to variant_v2.php using ?variant=<genomic_variant>
+  - That means variant_v2.php must support reading $_GET["variant"].
+*/
+
+$rows = $pdo->query("
+  SELECT
+    gene_symbol,
+    ref_genome,
+    genomic_variant,
+    n_reports,
+    studies
+  FROM v_literature_summary_by_variant_coords
+  ORDER BY n_reports DESC, gene_symbol
+  LIMIT 1000
+")->fetchAll();
+?>
+
+<div class="card">
+  <h2>Browse variants</h2>
+
+  <p class="small">
+    Variants are grouped by genomic coordinates.
+    <br>
+    <b># Reports</b> = number of distinct studies reporting this variant.
+  </p>
+
+  <?php if (!$rows): ?>
+    <p>No variants found.</p>
+  <?php else: ?>
+
+    <div class="small">
+      Showing <?= count($rows) ?> variants (top by report count).
+    </div>
+
+    <table>
+      <tr>
+        <th>Gene</th>
+        <th>Reference genome</th>
+        <th>Genomic variant</th>
+        <th># Reports</th>
+        <th># Studies</th>
+      </tr>
+
+      <?php foreach ($rows as $r): ?>
+        <?php
+          $gv = trim((string)($r["genomic_variant"] ?? ""));
+          $gv_missing = ($gv === "" || $gv === ".");
+        ?>
+        <tr>
+          <td><?= na($r["gene_symbol"] ?? null) ?></td>
+          <td><?= na($r["ref_genome"] ?? null) ?></td>
+
+          <td class="small">
+            <?php if (!$gv_missing): ?>
+              <a href="/variant_v2.php?variant=<?= urlencode($gv) ?>">
+                <?= h($gv) ?>
+              </a>
+            <?php else: ?>
+              NA
+            <?php endif; ?>
+          </td>
+
+          <td><?= (int)($r["n_reports"] ?? 0) ?></td>
+          <td class="small"><?= h($r["studies"] ?? "") ?></td>
+        </tr>
+      <?php endforeach; ?>
+    </table>
+
+  <?php endif; ?>
+</div>
+
+<?php require __DIR__ . "/partials/footer.php"; ?>

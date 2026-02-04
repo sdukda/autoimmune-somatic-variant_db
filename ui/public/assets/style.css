@@ -1,0 +1,928 @@
+:root { --border:#e6e6e6; --muted:#666; }
+
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, -apple-system, Arial, sans-serif; color:#111; background:#fff; }
+a { color:#0b57d0; text-decoration:none; }
+a:hover { text-decoration:underline; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 16px; }
+.site-header { border-bottom: 1px solid var(--border); background:#fafafa; }
+.brand-title { font-weight: 700; font-size: 20px; }
+.brand-subtitle { color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+.nav { margin-top: 12px; display:flex; gap:14px; flex-wrap:wrap; }
+.nav a { padding:6px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; }
+
+.site-footer { border-top: 1px solid var(--border); margin-top: 28px; padding: 14px 0; color: var(--muted); background:#fafafa; }
+
+.card { border:1px solid var(--border); border-radius:12px; padding:16px; margin: 16px 0; }
+.grid { display:grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+.col-6 { grid-column: span 6; }
+.col-12 { grid-column: span 12; }
+@media (max-width: 900px){ .col-6 { grid-column: span 12; } }
+
+input[type="text"]{
+width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:10px;
+ }
+button{
+  padding:10px 14px; border:1px solid var(--border); border-radius:10px; background:#111; color:#fff; cursor:pointer;
+ }
+ button:hover{ opacity:0.9; }
+
+table { border-collapse: collapse; width:100%; }
+th, td { border:1px solid var(--border); padding: 8px 10px; text-align:left; }
+ th { background:#f5f5f5; }
+.small { color: var(--muted); font-size: 13px; }
+
+
+ /* =========================================================
+   Autoimmune_DB UI polish (tables + typography + buttons)
+   Keep ONE copy of these rules (avoid duplicates)
+   ========================================================= */
+
+:root{
+  --border:#d6dde8;          /* stronger than your old #e6e6e6 */
+  --border-strong:#c0cad8;
+  --muted:#6b7280;
+
+  --text:#111827;
+  --bg:#ffffff;
+
+  --head-bg:#f6f8fc;
+  --row-alt:#fafcff;
+  --row-hover:#f1f6ff;
+
+  --link:#1d4ed8;
+}
+
+/* Base typography */
+body{
+  margin:0;
+  color: var(--text);
+  background: var(--bg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a{ color: var(--link); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
+.small{ color: var(--muted); font-size: 13px; }
+
+/* Container + header layout */
+.container{ max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+.site-header{
+  border-bottom: 1px solid var(--border);
+  background:#fafafa;
+}
+
+.site-header .header-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Brand */
+.brand{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo{
+  height: 42px;
+}
+
+.brand-title{
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.brand-subtitle{
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Nav */
+.nav{
+  display: flex;
+  gap: 10px;
+}
+
+.nav a{
+height: 34px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: #0b57d0;
+}
+.nav a:hover{
+  background: #f3f4f6;
+  text-decoration: none;
+}
+.nav a.active{
+  background: #0b57d0;
+  color: #fff;
+  border-color: #0b57d0;
+}
+.nav a:hover{
+  background:#e8f0fe;
+  border-color:#0b57d0;
+}
+
+/* Mobile layout */
+@media (max-width: 720px){
+  .site-header .container{
+    grid-template-columns: 1fr;
+  }
+  .nav{
+    justify-content: flex-start;
+  }
+}
+.nav{ display:flex; gap:14px; flex-wrap:wrap; }
+.nav a{ padding:6px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; }
+
+/* Brand with logo */
+.brand{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo{
+  height: 44px;     /* adjust if needed */
+  width: auto;
+}
+
+.brand-text{
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cards */
+.card{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+  margin:16px 0;
+}
+
+/* Grid (already used in Study page) */
+.grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+.col-6{ grid-column: span 6; }
+.col-12{ grid-column: span 12; }
+@media (max-width: 900px){ .col-6{ grid-column: span 12; } }
+
+/* Inputs */
+input[type="text"], select{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid var(--border-strong);
+  border-radius:10px;
+  font-size:14px;
+}
+input[type="text"]:focus, select:focus{
+  outline:none;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+  border-color: rgba(29, 78, 216, 0.45);
+}
+
+/* Buttons (consistent across pages) */
+button, .btn, .btn-secondary{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:10px;
+  border:1px solid var(--border-strong);
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:none;
+  line-height:1;
+}
+button, .btn{
+  background:#64748b;
+  color:#fff;
+  border-color:#111827;
+}
+.btn-secondary, a.btn-secondary{
+  background:#0b57d0;
+  color:#fff;
+  border-color:#111827;
+}
+button:hover, .btn:hover, .btn-secondary:hover{
+  filter: brightness(0.96);
+}
+
+/* =========================================================
+   TABLES: readable, strong grid lines, no “Reference” splitting
+   ========================================================= */
+
+/* Wrap wide tables to avoid squeezing/distortion on small screens */
+.table-wrap{
+  width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling: touch;
+  border:1px solid var(--border-strong);
+  border-radius:12px;
+}
+
+/* Table itself */
+table{
+  width:100%;
+  border-collapse: separate;
+  border-spacing:0;
+  table-layout:auto;          /* important: prevents tiny squeezed columns */
+  background: var(--bg);
+}
+
+/* Header cells */
+th{
+  background: var(--head-bg);
+  font-weight:700;
+  font-size:13px;
+  padding:10px 12px;
+  text-align:left;
+  vertical-align:middle;
+  white-space: nowrap;        /* prevents ugly header wrapping */
+  border-bottom:1px solid var(--border-strong);
+  border-right:1px solid var(--border);
+}
+/* Make table header sort links always visible */
+th a,
+table th a {
+  color: #111827;      /* dark text */
+  font-weight: 700;
+  text-decoration: none;
+}
+
+th a:hover,
+table th a:hover {
+  color: #0b57d0;      /* blue on hover */
+  text-decoration: none;
+}
+/* Body cells */
+td{
+  padding:10px 12px;
+  vertical-align:top;
+  line-height:1.35;
+  border-bottom:1px solid var(--border);
+  border-right:1px solid var(--border);
+
+  white-space: normal;        /* normal text wrapping */
+  word-break: normal;         /* DO NOT break “Reference” into pieces */
+  overflow-wrap: anywhere;    /* but allow very long strings (HGVS) to wrap */
+}
+
+th:last-child, td:last-child{ border-right:none; }
+
+/* Zebra + hover */
+tbody tr:nth-child(even) td{ background: var(--row-alt); }
+tbody tr:hover td{ background: var(--row-hover); }
+
+/* Optional: sticky header when inside .table-wrap */
+.table-wrap thead th{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* For columns where you WANT wrapping (e.g. Studies text) */
+td.wrap{ white-space: normal; }
+
+/* --- Study table: prevent wrapping in Year / PMID --- */
+.col-year, .col-pmid{
+  white-space: nowrap;     /* never split digits */
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Keep them reasonably narrow */
+th.col-year, td.col-year { width: 70px; }
+th.col-pmid, td.col-pmid { width: 110px; }
+
+/* Optional: center numbers looks cleaner */
+td.col-year, td.col-pmid { text-align: center; }
+
+/* Keep short symbols like KMT2D, CARD11 on one line */
+td.col-gene, th.col-gene {
+  white-space: nowrap;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+/* Optional: make the gene column a bit narrower and consistent */
+td.col-gene, th.col-gene { width: 90px; }
+
+/* Sortable table headers */
+th a {
+  color: inherit;          /* inherit header text colour */
+  text-decoration: none;
+  font-weight: 700;
+}
+
+th a:hover {
+  text-decoration: underline;
+}
+
+/* Keep Year/PMID readable (no weird wrapping) */
+th.col-year, td.col-year,
+th.col-pmid, td.col-pmid {
+  white-space: nowrap;
+  width: 1%;
+}
+
+/* If you have long Study titles, allow them to wrap nicely */
+td.col-study {
+  white-space: normal;
+}
+th a { color: inherit; text-decoration: none; font-weight: 700; }
+th a:hover { text-decoration: underline; }
+.sort-arrow { font-size: 12px; opacity: 0.75; }
+
+th a { color: inherit; text-decoration: none; font-weight: 700; }
+th a:hover { text-decoration: underline; }
+
+.sort-arrow {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-left: 4px;
+  display: inline-block;
+  line-height: 1;
+}
+
+.sort-arrow {
+  font-size: 12px;
+  margin-left: 2px;
+  line-height: 1;
+}
+
+.sort-arrow.inactive {
+  opacity: 0.35;
+}
+
+.sort-arrow.active {
+  opacity: 1;
+  font-weight: 700;
+}
+
+.sort-arrow {
+  font-size: 12px;
+  margin-left: 2px;
+  display: inline-block;
+  line-height: 1;
+}
+
+.sort-arrow.inactive { opacity: 0.35; }
+.sort-arrow.active   { opacity: 1; font-weight: 700; }
+
+/* Quick stats: show grid lines in both columns and make them more distinct */
+.quick-stats-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.quick-stats-table th,
+.quick-stats-table td {
+  border: 1px solid #94a3b8;   /* more distinct than default */
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Optional: make the label column a bit softer */
+.quick-stats-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  width: 65%;
+}
+
+/* Optional: keep numbers aligned nicely */
+.quick-stats-table td {
+  width: 35%;
+}
+
+/* Optional: links look consistent */
+.quick-stats-table a {
+  color: inherit;
+  text-decoration: none;
+}
+.quick-stats-table a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   Start here (homepage)
+   ========================= */
+
+.start-here-card {
+  border: 1.5px solid #94a3b8;        /* strong blue border */
+  background: #f8fbff;
+}
+
+/* Title emphasis */
+.start-here-card h3 {
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 1rem;
+}
+
+/* Inner search forms: lighter boxes */
+.start-here-form {
+  border: 1px solid #cbd5e1;
+  padding: 12px;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+/* Space between forms */
+.start-here-form + .start-here-form {
+  margin-top: 12px;
+}
+
+/* Inputs fill width nicely */
+.start-here-form input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+/* Gene page: primary search panel */
+.gene-page-card {
+  border: 1.5px solid #94a3b8;   /* light-dark */
+  background: #f8fbff;
+}
+
+/* Gene page: secondary section panel */
+.gene-page-section {
+  border: 1px solid #cbd5e1;     /* lighter than primary */
+  background: #ffffff;
+}
+
+/* =========================
+   Disease page layout
+   ========================= */
+
+.disease-page-card {
+  border: 1.5px solid #94a3b8;   /* light-dark emphasis */
+  background: #f8fbff;
+}
+
+.disease-page-form,
+.disease-page-section {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+/* =========================
+   Study page layout
+   ========================= */
+
+.study-page-card {
+  border: 1.5px solid #94a3b8;   /* same light-dark emphasis */
+  background: #f8fbff;
+}
+
+.study-page-form,
+.study-page-section {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+/* =========================
+   Browse all studies table
+   ========================= */
+
+.browse-studies-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #cbd5e1;
+}
+
+.browse-studies-table th,
+.browse-studies-table td {
+  border: 1px solid #cbd5e1;   /* consistent grid lines */
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+/* Force the last column (DOI) to have a right border */
+.browse-studies-table th:last-child,
+.browse-studies-table td:last-child {
+  border-right: 1px solid #cbd5e1 !important;
+}
+
+.browse-studies-table th,
+.browse-studies-table td {
+  border-right: 1px solid #cbd5e1 !important;
+  border-left:  1px solid #cbd5e1 !important;
+  border-top:   1px solid #cbd5e1 !important;
+  border-bottom:1px solid #cbd5e1 !important;
+}
+
+/* --- Study browse tables: force closed grid including right edge --- */
+.browse-studies-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1.5px solid #94a3b8;  /* outer frame */
+}
+
+.browse-studies-table th,
+.browse-studies-table td {
+  border: 1px solid #cbd5e1;    /* inner grid */
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+/* If any global CSS removes last column border, force it back */
+.browse-studies-table th:last-child,
+.browse-studies-table td:last-child {
+  border-right: 1px solid #cbd5e1 !important;
+}
+.browse-studies-table th:last-child,
+.browse-studies-table td:last-child {
+  white-space: nowrap;
+}
+
+/* --- Gene browse table: force closed grid including right edge --- */
+.browse-genes-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1.5px solid #94a3b8;  /* outer frame */
+}
+
+.browse-genes-table th,
+.browse-genes-table td {
+  border: 1px solid #cbd5e1;    /* inner grid */
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+/* Force last column right edge to show */
+.browse-genes-table th:last-child,
+.browse-genes-table td:last-child {
+  border-right: 1px solid #cbd5e1 !important;
+}
+
+/* --- Variants browse table: force closed grid including right edge --- */
+.browse-variants-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1.5px solid #94a3b8;  /* outer frame */
+}
+
+.browse-variants-table th,
+.browse-variants-table td {
+  border: 1px solid #cbd5e1;    /* inner grid */
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+/* Force last column right edge to show */
+.browse-variants-table th:last-child,
+.browse-variants-table td:last-child {
+  border-right: 1px solid #cbd5e1 !important;
+}
+.browse-variants-table td {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+/* Force sharp corners for browse tables */
+.browse-diseases-table,
+.browse-diseases-table * {
+  border-radius: 0 !important;
+}
+
+/* Disease browse section: sharp corners */
+.disease-page-section {
+  border-radius: 0 !important;
+}
+
+/* =========================
+   Disease browse table
+   Match Gene page style
+   ========================= */
+
+/* Card stays visible */
+.disease-page-section {
+  border-radius: 6px;
+}
+
+/* Table should NOT have its own outer border */
+.browse-diseases-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none;               /* <-- THIS removes the extra box */
+}
+
+/* Keep grid lines only */
+.browse-diseases-table th,
+.browse-diseases-table td {
+  border-bottom: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
+  padding: 10px 12px;
+}
+
+/* Remove right border on last column */
+.browse-diseases-table th:last-child,
+.browse-diseases-table td:last-child {
+  border-right: none;
+}
+
+/* Header styling consistent with Gene page */
+.browse-diseases-table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+/* HARD OVERRIDE: remove any box border around disease browse table */
+.disease-page-section .browse-diseases-table {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.disease-page-section .browse-diseases-table th,
+.disease-page-section .browse-diseases-table td {
+  border-radius: 0 !important;
+}
+
+/* If your table is wrapped in something that adds its own border */
+.disease-page-section .table-wrap,
+.disease-page-section .table-container,
+.disease-page-section .table-responsive {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Internal grid only: no outer frame */
+.disease-page-section .browse-diseases-table {
+  width: 100%;
+  border-collapse: collapse !important;
+}
+
+/* draw grid */
+.disease-page-section .browse-diseases-table th,
+.disease-page-section .browse-diseases-table td {
+  border: 1px solid #cbd5e1;
+  padding: 10px 12px;
+}
+
+/* remove outer edges so it doesn't look double-boxed */
+.disease-page-section .browse-diseases-table tr:first-child th {
+  border-top: none;
+}
+.disease-page-section .browse-diseases-table tr:last-child td {
+  border-bottom: none;
+}
+.disease-page-section .browse-diseases-table th:first-child,
+.disease-page-section .browse-diseases-table td:first-child {
+  border-left: none;
+}
+.disease-page-section .browse-diseases-table th:last-child,
+.disease-page-section .browse-diseases-table td:last-child {
+  border-right: none;
+}
+.disease-page-section table.browse-diseases-table,
+.disease-page-section table.browse-disease-table {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+/* Disease browse table: like Gene page */
+.browse-disease-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
+}
+
+.browse-disease-table th,
+.browse-disease-table td {
+  border: 1px solid #cbd5e1;
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+.browse-disease-table tr:first-child th { border-top: none; }
+.browse-disease-table tr:last-child td { border-bottom: none; }
+.browse-disease-table th:first-child,
+.browse-disease-table td:first-child { border-left: none; }
+.browse-disease-table th:last-child,
+.browse-disease-table td:last-child { border-right: none; }
+
+/* Make browse sections flat like Gene page */
+.card:has(h3:contains("Browse all")) {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+/* Disease browse table: show full grid lines including headers */
+.browse-disease-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.browse-disease-table th,
+.browse-disease-table td {
+  border: 1px solid #cbd5e1;   /* vertical + horizontal lines */
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+.browse-disease-table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+/* Force grid lines for Browse all diseases table */
+.browse-disease-table th,
+.browse-disease-table td {
+  border: 1px solid var(--border) !important;
+}
+
+/* Optional: keep header style consistent */
+.browse-disease-table th {
+  background: #f5f5f5 !important;
+}
+
+/* Force grid lines for Browse all variants table */
+.browse-variants-table th,
+.browse-variants-table td {
+  border: 1px solid var(--border) !important;
+}
+
+.browse-variants-table th {
+  background: #f5f5f5 !important;
+}
+
+/* === Variants browse table: force borders like Gene/Disease === */
+table.browse-variants-table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+}
+
+table.browse-variants-table th,
+table.browse-variants-table td {
+  border: 1px solid var(--border) !important;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.browse-variants-table th {
+  background: #f5f5f5;
+}
+/* === FORCE NAV BUTTON COLOR === */
+.nav a {
+  background: #64748b64748b64748b64748b64748b64748b !important;
+  color: #ffffff !important;
+  border-color: #0b57d0 !important;
+}
+/* =========================
+   NAV BUTTONS (uniform)
+   ========================= */
+.site-header .nav{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:flex-end;
+}
+
+.site-header .nav a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:38px;
+  padding:0 14px;
+  border-radius:10px;
+
+  background:#4b5563;   /* same family as your Search/Download */
+  color:#fff;
+  border:1px solid #374151;
+
+  font-weight:700;
+  text-decoration:none;
+  line-height:1;
+  white-space:nowrap;
+}
+
+.site-header .nav a:hover{
+  filter:brightness(0.96);
+  text-decoration:none;
+}
+
+/* optional: active page highlight */
+.site-header .nav a.active{
+  background:#111827;
+  border-color:#111827;
+}
+
+
+.sort-link {
+  white-space: nowrap;
+}
+
+.sort-active {
+  color: #0b57d0;  /* same blue you like */
+  font-weight: 700;
+}
+
+.sort-inactive {
+  color: #9aa4b2;
+}
+.sort-link { white-space: nowrap; }
+
+/* =========================================================
+   FINAL OVERRIDE: header text MUST be visible
+   Put this at the VERY BOTTOM of style.php
+   ========================================================= */
+
+table th,
+table thead th {
+  color: #111827 !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+table th a,
+table thead th a {
+  color: #111827 !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  text-decoration: none !important;
+}
+
+table th a:hover,
+table thead th a:hover {
+  color: #0b57d0 !important;
+}
+
+/* make arrows visible too */
+.sort-arrow {
+  font-size: 11px !important;
+  line-height: 1 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.sort-arrow.active { color: #0b57d0 !important; }
+.sort-arrow.inactive { color: #9ca3af !important; }
+
+/* =========================================================
+   EMERGENCY FIX: force table headers to render
+   Put at VERY END of style.php
+   ========================================================= */
+
+table thead {
+  display: table-header-group !important;
+}
+
+table th, table thead th {
+  display: table-cell !important;
+  font-size: 13px !important;          /* <-- key */
+  color: #111827 !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+table th *, table thead th *{
+  font-size: 13px !important;          /* <-- key */
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+table th a, table thead th a {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #111827 !important;
+  text-decoration: none !important;
+}
+
+table th a:hover, table thead th a:hover {
+  color: #0b57d0 !important;
+}
+/* Ensure the label in sortable headers never collapses */
+.sort-link { display: inline-flex; align-items: center; gap: 6px; }
+.sort-label { flex: 0 0 auto; }        /* <-- prevents shrink-to-zero */
