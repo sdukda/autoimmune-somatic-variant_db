@@ -14,3 +14,31 @@
 # env / secrets
 .env
 ui/public/.env
+
+# ----------------------------
+# Local working files (do not commit)
+# ----------------------------
+local_work/
+documentation/
+write_up_docs/
+paper_datasets/
+dataset_master/
+sql_old/
+sql/seeds_archive/
+
+# Parsed / intermediate outputs
+*.tsv
+*.txt
+coordinates.txt
+
+# Word/Office temp files
+~$*
+*.docx
+
+# macOS
+.DS_Store
+
+# editor temp
+*.swp
+*.swo
+*~
