@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# editor temp files
+*.swp
+*.swo
+*~
+*.tmp
+
+# logs / outputs
+*.out
+*.err
+
+# env / secrets
+.env
+ui/public/.env
