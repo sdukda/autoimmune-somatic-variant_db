@@ -4,7 +4,12 @@
 //  - $pdo  (PDO connection)
 //  - h()   (HTML escaping helper)
 
-$config = require __DIR__ . "/db.php";
+// Prefer local, untracked credentials file if present
+$dbConfigFile = __DIR__ . "/db.local.php";
+if (!file_exists($dbConfigFile)) {
+  $dbConfigFile = __DIR__ . "/db.php";
+}
+$config = require $dbConfigFile;
 
 $dsn = sprintf(
   "mysql:host=%s;port=%d;dbname=%s;charset=%s",

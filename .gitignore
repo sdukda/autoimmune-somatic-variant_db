@@ -42,3 +42,5 @@ coordinates.txt
 *.swp
 *.swo
 *~
+# Local secrets (never commit)
+ui/config/db.local.php
