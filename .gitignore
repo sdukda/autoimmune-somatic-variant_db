@@ -44,3 +44,7 @@ coordinates.txt
 *~
 # Local secrets (never commit)
 ui/config/db.local.php
+
+# Personal files
+CoE*
+*.certificate*
