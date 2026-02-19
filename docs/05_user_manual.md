@@ -18,9 +18,9 @@ This manual provides a comprehensive guide for navigating and using the portal.
 
 2. Homepage Overview
 
-images/homepage_01_overview.png
+![Home Page Overview](images/homepage_01_overview.png)
 
-
+*Figure 1. Home page of the Autoimmune Somatic Variants Portal.*
 
 Homepage functions as the central entry point to the Autoimmune Somatic Variants Portal. It provides:
  
@@ -75,7 +75,10 @@ Functionality
 
 3. Gene Page Overview
 
-images/gene_01_browse.png
+![Gene Browse Page](images/gene_01_browse.png)
+
+*Figure 2. Gene browse page.*
+
 The Gene Browse View provides a searchable and sortable list of genes curated within the database. Each row summarizes:
 •	Gene symbol
 •	Number of unique variants
@@ -131,7 +134,9 @@ Clicking a gene symbol (e.g., ARID1A) redirects the user to the detailed Gene Vi
 
 3.6 Gene Detail View (Example: ARID1A)
 
-image/gene_02_detail.png
+![Gene Detail Page](image/gene_02_detail.png)
+
+*Figure 3. Gene detail page.*
 
 The Gene Detail View displays all curated somatic variants associated with the selected gene. The page includes:
 •	Variant identifiers
@@ -201,7 +206,9 @@ The "Download" button allows export of:
 
 
 4 Disease Browse Overview
-images/disease_01_browse.png
+![Disease Browse Page](images/disease_01_browse.png)
+
+*Figure 4. Disease browse page.*
 
 The Disease Browse View lists all autoimmune and inflammatory diseases included in the database. Each disease entry includes:
 •	Disease name
@@ -250,7 +257,9 @@ Loads the Disease Detail View, where:
 
 
 4.4 Disease Detail View
-images/disease_02_detail.png
+![Disease Detail Page](images/disease_02_detail.png)
+
+*Figure 5. Disease detail page.*
 
 The Disease Detail View organizes information into three sections:
 •	Disease metadata (category and DOID)
@@ -335,7 +344,9 @@ This annotation reflects manual literature curation and classification.
 
 5 Study Browse View
 
-images/study_01_browse.png
+![Study Browse Page](images/study_01_browse.png)
+
+*Figure 6. Study browse page.*
 
 Study Browse View provides a structured index of all peer-reviewed publications curated within the Autoimmune Somatic Variants Portal. The interface enables users to:
 •	search studies by title, PMID, DOI, or year
@@ -376,7 +387,9 @@ PMID and DOI values link to external resources:
 
 5.5 Study Detail View
 
-images/study_02_detail.png
+![Study Detail Page](images/study_02_detail.png)
+
+*Figure 7. Study detail page.*
 
 Study Detail View presents a structured, study-centric summary of all curated somatic variants reported in a specific publication. The page integrates:
 •	bibliographic metadata
@@ -450,7 +463,9 @@ Study → Variant → Gene → Disease → Cell type
 
 6 Variant Browse and Filter View
 
-images/variant_01_browse.png
+![Variant Browse Page](images/variant_01_browse.png)
+
+*Figure 8. Variant browse page.*
 
 The Variant Browse View provides a comprehensive, filterable list of all curated somatic variants. Columns include:
 •	Variant ID
@@ -554,7 +569,9 @@ Download button exports the currently filtered dataset in tabular format, suitab
 
 6.8 Variant Detail View (Coordinate Mode)
 
-images/variant_02_detail_coordinate.png
+![Variant Detail Page](images/variant_02_detail_coordinate.png)
+
+*Figure 9. Variant detail page.*
 
 The Variant Detail View (ID Mode) displays all curated evidence for a specific variant entry. The page includes:
 •	Genomic coordinate and reference genome build
@@ -615,7 +632,9 @@ Clicking the genomic coordinate, users may open the UCSC Genome Browser at the e
 
 7 Variant Data Download Functionality
 
-images/variants_download_filtered_example.png
+![Variant Data Download Functionality](images/variants_download_filtered_example.png)
+
+*Figure 10. Variant data download functionality.*
 
 Variant page provides structured data export functionality to enable downstream computational analysis. This download feature allows users to extract curated somatic variant records in a machine-readable format. Unlike static display tables, the download function provides direct access to structured data suitable for:
 •	Statistical analysis
@@ -674,7 +693,9 @@ Exports intersection of both conditions.
 
 7.5 Practical example
 
-images/variants_download_csv_example.png
+![Example Download](images/variants_download_csv_example.png)
+
+*Figure 11. Download example.*
 
 Example workflow:
 •	Navigate to variants page.
