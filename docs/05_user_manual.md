@@ -134,7 +134,7 @@ Clicking a gene symbol (e.g., ARID1A) redirects the user to the detailed Gene Vi
 
 3.6 Gene Detail View (Example: ARID1A)
 
-![Gene Detail Page](image/gene_02_detail.png)
+![Gene Detail Page](./images/gene_02_detail.png)
 
 *Figure 3. Gene detail page.*
 
