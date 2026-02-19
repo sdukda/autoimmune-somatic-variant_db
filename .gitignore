@@ -48,3 +48,4 @@ ui/config/db.local.php
 # Personal files
 CoE*
 *.certificate*
+.DS_Store
