@@ -234,188 +234,192 @@ if (wants_csv_download()) {
 $pageTitle = "Study";
 require __DIR__ . "/partials/header.php";
 ?>
+<!-- Study wrap start -->
+<div class="study-page-wrap">
 
-<div class="card study-page-card">
   <h2>Studies</h2>
+  <div class="section-divider"></div>
 
   <form method="get" action="/study_v2.php" class="study-page-form">
-   
-    <input id="q" name="q" type="text" value="<?= h($q) ?>" placeholder="Search studies (title, PMID, year, DOI)..." />
-<br><br>
-    <button type="submit">Search</button>
-    <button type="submit" name="download" value="csv">Download</button>
-    <a class="btn" href="/study_v2.php">Clear</a>
+    <input id="q" name="q" type="text" value="<?= h($q) ?>"
+           placeholder="Search studies (title, PMID, year, DOI)..." />
+
+    <div class="form-actions">
+      <button type="submit" class="btn">Search</button>
+      <button type="submit" name="download" value="csv" class="btn">Download</button>
+      <a class="btn" href="/study_v2.php">Clear</a>
+    </div>
   </form>
 
   <p class="small">
-   Tip:browse and search published <b>studies</b>,<b>PMID</b> and <b>DOI</b> reporting somatic variants in autoimmune disease.
-  <p>
-  <form>
-</div>
+    Tip: browse and search published <b>studies</b>, <b>PMID</b> and <b>DOI</b> reporting somatic variants in autoimmune disease.
+  </p>
 
-<?php if ($study): ?>
-  <div class="study-page-section" style="margin-top:16px;">
-    <h3><?= h($study["study_name"]) ?></h3>
+  <?php if ($study): ?>
+    <div class="study-page-section" style="margin-top:16px;">
+      <h3><?= h($study["study_name"]) ?></h3>
 
-    <?php
-      $pmidLink = pubmed_url($study["pmid"] ?? "");
-      $doiLink  = doi_url($study["doi"] ?? "");
-    ?>
-
-    <table class="browse-studies-table">
-      <tr><th style="width:180px;">Year</th><td><?= h($study["year"] ?? "") ?></td></tr>
-      <tr>
-        <th>PMID</th>
-        <td>
-          <?php if ($pmidLink): ?>
-            <a target="_blank" rel="noopener" href="<?= h($pmidLink) ?>"><?= h($study["pmid"]) ?></a>
-          <?php else: ?>
-            <?= h($study["pmid"] ?? "") ?>
-          <?php endif; ?>
-        </td>
-      </tr>
-      <tr>
-        <th>DOI</th>
-        <td>
-          <?php if (!empty($study["doi"])): ?>
-            <a target="_blank" rel="noopener" href="<?= h($doiLink) ?>"><?= h($study["doi"]) ?></a>
-          <?php else: ?>
-            <?= h($study["doi"] ?? "") ?>
-          <?php endif; ?>
-        </td>
-      </tr>
-    </table>
-
-    <div class="grid" style="margin-top:14px;">
-      <div class="col-6">
-        <div class="card">
-          <h4>Diseases in this study</h4>
-          <?php if (!$diseaseSummary): ?>
-            <div class="small">No linked variants found for this study.</div>
-          <?php else: ?>
-          
-      <table>
-      <tr>
-  <th><?= studies_sort_link('Study', 'study_name', $q, $sort, $dir) ?></th>
-  <th class="col-year"><?= studies_sort_link('Year', 'year', $q, $sort, $dir) ?></th>
-  <th class="col-pmid"><?= studies_sort_link('PMID', 'pmid', $q, $sort, $dir) ?></th>
-  <th><?= studies_sort_link('DOI', 'doi', $q, $sort, $dir) ?></th>
-</tr>
-              <?php foreach ($diseaseSummary as $d): ?>
-                <tr>
-                  <td><a href="/disease_v2.php?id=<?= (int)$d["disease_id"] ?>"><?= h($d["disease_name"]) ?></a></td>
-                  <td><?= h($d["disease_category"] ?? "") ?></td>
-                  <td class="small"><?= h($d["disease_ontology_id"] ?? "") ?></td>
-                  <td><?= (int)$d["n_variants"] ?></td>
-                </tr>
-              <?php endforeach; ?>
-            </table>
-          <?php endif; ?>
-        </div>
-      </div>
-
-      <div class="col-6">
-        <div class="card">
-          <h4>Genes in this study</h4>
-          <?php if (!$geneSummary): ?>
-            <div class="small">No linked variants found for this study.</div>
-          <?php else: ?>
-            <table>
-              <tr><th>Gene</th><th>Variants</th></tr>
-              <?php foreach ($geneSummary as $g): ?>
-                <tr>
-                  <td><a href="/gene_v2.php?q=<?= urlencode($g["gene_symbol"]) ?>"><?= h($g["gene_symbol"]) ?></a></td>
-                  <td><?= (int)$g["n_variants"] ?></td>
-                </tr>
-              <?php endforeach; ?>
-            </table>
-          <?php endif; ?>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:14px;">
-      <h4>Variants in this study</h4>
-      <?php if (!$variants): ?>
-        <div class="small">No variants found.</div>
-      <?php else: ?>
-        
-<div class="table-wrap">
-        <table>
-          <tr>
-            <th>Variant ID</th>
-            <th>Gene</th>
-            <th>cDNA</th>
-            <th>Protein</th>
-            <th>Type</th>
-            <th>Consequence</th>
-            <th>Driver</th>
-            <th>Disease</th>
-            <th>Cell type</th>
-          </tr>
-          <?php foreach ($variants as $v): ?>
-            <tr>
-              <td><a href="/variant_v2.php?id=<?= (int)$v["literature_variant_id"] ?>"><?= (int)$v["literature_variant_id"] ?></a></td>
-              <td><a href="/gene_v2.php?q=<?= urlencode($v["gene_symbol"]) ?>"><?= h($v["gene_symbol"]) ?></a></td>
-              <td class="small"><?= h($v["cDNA_HGVS"] ?? "") ?></td>
-              <td class="small"><?= h($v["protein_change"] ?? "") ?></td>
-              <td><?= h($v["variant_type"] ?? "") ?></td>
-              <td><?= h($v["consequence"] ?? "") ?></td>
-              <td><?= h($v["is_driver"] ?? "") ?></td>
-              <td><a href="/disease_v2.php?id=<?= (int)$v["disease_id"] ?>"><?= h($v["disease_name"] ?? "") ?></a></td>
-              <td><?= h($v["cell_type_name"] ?? "") ?></td>
-            </tr>
-          <?php endforeach; ?>
-        </table>
-        </div>
-      <?php endif; ?>
-    </div>
-
-  </div>
-<?php endif; ?>
-
-<div class="card study-page-section" style="margin-top:16px;">
-  <h3>Browse all studies</h3>
-  <table class="browse-studies-table">
-    <tr>
-    <th><?= studies_sort_link('Study', 'study_name', $q, $sort, $dir) ?></th>
-  <th class="col-year"><?= studies_sort_link('Year', 'year', $q, $sort, $dir) ?></th>
-  <th class="col-pmid"><?= studies_sort_link('PMID', 'pmid', $q, $sort, $dir) ?></th>
-  <th><?= studies_sort_link('DOI', 'doi', $q, $sort, $dir) ?></th>
-
-    </tr>
-    <?php foreach ($studies as $s): ?>
       <?php
-        $pmidLink = pubmed_url($s["pmid"] ?? "");
-        $doiLink  = doi_url($s["doi"] ?? "");
+        $pmidLink = pubmed_url($study["pmid"] ?? "");
+        $doiLink  = doi_url($study["doi"] ?? "");
       ?>
-    <tr>
-  <td>
-    <a href="/study_v2.php?id=<?= (int)$s["study_id"] ?>">
-      <?= h($s["study_name"]) ?>
-    </a>
-  </td>
 
-  <td class="col-year"><?= h($s["year"] ?? "") ?></td>
+      <table class="browse-studies-table">
+        <tr><th style="width:180px;">Year</th><td><?= h($study["year"] ?? "") ?></td></tr>
+        <tr>
+          <th>PMID</th>
+          <td>
+            <?php if ($pmidLink): ?>
+              <a target="_blank" rel="noopener" href="<?= h($pmidLink) ?>"><?= h($study["pmid"]) ?></a>
+            <?php else: ?>
+              <?= h($study["pmid"] ?? "") ?>
+            <?php endif; ?>
+          </td>
+        </tr>
+        <tr>
+          <th>DOI</th>
+          <td>
+            <?php if (!empty($study["doi"])): ?>
+              <a target="_blank" rel="noopener" href="<?= h($doiLink) ?>"><?= h($study["doi"]) ?></a>
+            <?php else: ?>
+              <?= h($study["doi"] ?? "") ?>
+            <?php endif; ?>
+          </td>
+        </tr>
+      </table>
 
-  <td class="col-pmid">
-    <?php if ($pmidLink): ?>
-      <a target="_blank" rel="noopener" href="<?= h($pmidLink) ?>"><?= h($s["pmid"]) ?></a>
-    <?php else: ?>
-      <?= h($s["pmid"] ?? "") ?>
-    <?php endif; ?>
-  </td>
+      <div class="grid" style="margin-top:14px;">
 
-  <td class="small">
-    <?php if (!empty($s["doi"])): ?>
-      <a target="_blank" rel="noopener" href="<?= h($doiLink) ?>"><?= h($s["doi"]) ?></a>
-    <?php else: ?>
-      <?= h($s["doi"] ?? "") ?>
-    <?php endif; ?>
-  </td>
-</tr>
-    <?php endforeach; ?>
-  </table>
+        <div class="panel">
+          <div class="card">
+            <h4>Diseases in this study</h4>
+            <?php if (!$diseaseSummary): ?>
+              <div class="small">No linked variants found for this study.</div>
+            <?php else: ?>
+              <table>
+                <tr>
+                  <th>Disease</th>
+                  <th>Category</th>
+                  <th class="small">DOID</th>
+                  <th>Variants</th>
+                </tr>
+                <?php foreach ($diseaseSummary as $d): ?>
+                  <tr>
+                    <td><a href="/disease_v2.php?id=<?= (int)$d["disease_id"] ?>"><?= h($d["disease_name"]) ?></a></td>
+                    <td><?= h($d["disease_category"] ?? "") ?></td>
+                    <td class="small"><?= h($d["disease_ontology_id"] ?? "") ?></td>
+                    <td><?= (int)$d["n_variants"] ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </table>
+            <?php endif; ?>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="card">
+            <h4>Genes in this study</h4>
+            <?php if (!$geneSummary): ?>
+              <div class="small">No linked variants found for this study.</div>
+            <?php else: ?>
+              <table>
+                <tr><th>Gene</th><th>Variants</th></tr>
+                <?php foreach ($geneSummary as $g): ?>
+                  <tr>
+                    <td><a href="/gene_v2.php?q=<?= urlencode($g["gene_symbol"]) ?>"><?= h($g["gene_symbol"]) ?></a></td>
+                    <td><?= (int)$g["n_variants"] ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </table>
+            <?php endif; ?>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h4>Variants in this study</h4>
+        <?php if (!$variants): ?>
+          <div class="small">No variants found.</div>
+        <?php else: ?>
+          <div class="table-wrap">
+            <table>
+              <tr>
+                <th>Variant ID</th>
+                <th>Gene</th>
+                <th>cDNA</th>
+                <th>Protein</th>
+                <th>Type</th>
+                <th>Consequence</th>
+                <th>Driver</th>
+                <th>Disease</th>
+                <th>Cell type</th>
+              </tr>
+              <?php foreach ($variants as $v): ?>
+                <tr>
+                  <td><a href="/variant_v2.php?id=<?= (int)$v["literature_variant_id"] ?>"><?= (int)$v["literature_variant_id"] ?></a></td>
+                  <td><a href="/gene_v2.php?q=<?= urlencode($v["gene_symbol"]) ?>"><?= h($v["gene_symbol"]) ?></a></td>
+                  <td class="small"><?= h($v["cDNA_HGVS"] ?? "") ?></td>
+                  <td class="small"><?= h($v["protein_change"] ?? "") ?></td>
+                  <td><?= h($v["variant_type"] ?? "") ?></td>
+                  <td><?= h($v["consequence"] ?? "") ?></td>
+                  <td><?= h($v["is_driver"] ?? "") ?></td>
+                  <td><a href="/disease_v2.php?id=<?= (int)$v["disease_id"] ?>"><?= h($v["disease_name"] ?? "") ?></a></td>
+                  <td><?= h($v["cell_type_name"] ?? "") ?></td>
+                </tr>
+              <?php endforeach; ?>
+            </table>
+          </div>
+        <?php endif; ?>
+      </div>
+
+    </div>
+  <?php endif; ?>
+
+  <div style="margin-top:24px;">
+    <h3>Browse all studies</h3>
+    <table class="browse-studies-table">
+      <tr>
+        <th><?= studies_sort_link('Study', 'study_name', $q, $sort, $dir) ?></th>
+        <th class="col-year"><?= studies_sort_link('Year', 'year', $q, $sort, $dir) ?></th>
+        <th class="col-pmid"><?= studies_sort_link('PMID', 'pmid', $q, $sort, $dir) ?></th>
+        <th><?= studies_sort_link('DOI', 'doi', $q, $sort, $dir) ?></th>
+      </tr>
+
+      <?php foreach ($studies as $s): ?>
+        <?php
+          $pmidLink = pubmed_url($s["pmid"] ?? "");
+          $doiLink  = doi_url($s["doi"] ?? "");
+        ?>
+        <tr>
+          <td>
+            <a href="/study_v2.php?id=<?= (int)$s["study_id"] ?>">
+              <?= h($s["study_name"]) ?>
+            </a>
+          </td>
+
+          <td class="col-year"><?= h($s["year"] ?? "") ?></td>
+
+          <td class="col-pmid">
+            <?php if ($pmidLink): ?>
+              <a target="_blank" rel="noopener" href="<?= h($pmidLink) ?>"><?= h($s["pmid"]) ?></a>
+            <?php else: ?>
+              <?= h($s["pmid"] ?? "") ?>
+            <?php endif; ?>
+          </td>
+
+          <td class="small">
+            <?php if (!empty($s["doi"])): ?>
+              <a target="_blank" rel="noopener" href="<?= h($doiLink) ?>"><?= h($s["doi"]) ?></a>
+            <?php else: ?>
+              <?= h($s["doi"] ?? "") ?>
+            <?php endif; ?>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+    </table>
+  </div>
+
 </div>
-
+<!-- Study wrap end -->
 <?php require __DIR__ . "/partials/footer.php"; ?>

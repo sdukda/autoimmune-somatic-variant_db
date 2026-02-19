@@ -235,26 +235,28 @@ if ($id > 0) {
 $pageTitle = "Diseases";
 require __DIR__ . "/partials/header.php";
 ?>
-
-<div class="card disease-page-card">
+<div class="disease-page-wrap">
   <h2>Diseases</h2>
+  <div class="section-divider"></div>
 
   <form class="disease-page-form" method="get" action="/disease_v2.php">
     <input type="text" name="q" value="<?= h($q) ?>" placeholder="Search diseases (name or DOID)..." />
-    <br><br>
-    <button type="submit">Search</button>
-    <button type="submit" name="download" value="csv">Download</button>
-    <a class="btn" href="/disease_v2.php">Clear</a>
-
+    
+    <div class="form-actions">
+  <button type="submit" class="btn">Search</button>
+  <button type="submit" name="download" value="csv" class="btn">Download</button>
+  <a class="btn" href="/disease_v2.php">Clear</a>
+</div>
+    
     <p class="small">
       Tip: search by <b>disease name</b> or <b>DOID</b>. Click a disease to view its variants and cell types.
     </p>
 
   </form>
-</div> 
+ 
 
   <?php if ($disease): ?>
-    <div class="card" style="margin-top:16px;">
+    <div style="margin-top:16px;">
       <h3><?= h($disease["disease_name"]) ?></h3>
 
       <table>
@@ -394,7 +396,7 @@ require __DIR__ . "/partials/header.php";
     </div> <!-- closes the disease detail .card -->
   <?php endif; ?>
 
-<div class="card" style="margin-top:16px;">
+<div style="margin-top:24px;">
     <h3>Browse all diseases</h3>
 
     <table class="browse-disease-table">
@@ -428,5 +430,6 @@ require __DIR__ . "/partials/header.php";
         </tr>
       <?php endforeach; ?>
     </table>
-  </div>
+  
+</div> <!-- closes .disease-page-wrap -->
 <?php require __DIR__ . "/partials/footer.php"; ?>

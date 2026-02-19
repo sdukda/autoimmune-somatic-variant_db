@@ -1,12 +1,13 @@
 <?php
 // ui/public/partials/footer.php
 ?>
-  </main>
 
-  <footer class="site-footer">
-    <div class="container small">
-      Autoimmune_DB UI • Local demo
-    </div>
-  </footer>
-</body>
+<footer class="site-footer">
+  <div class="container small">
+    <strong>Autoimmune Somatic Variants Portal</strong><br>
+    Literature-derived somatic variants reported in autoimmune and inflammatory diseases.<br>
+    Research prototype • James Cook University • 2026
+  </div>
+</footer>
+</main>
 </html>

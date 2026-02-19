@@ -22,7 +22,7 @@ try {
 }
 ?>
 
-<div class="card">
+<div class="home-hero">
   <h2>Welcome</h2>
   <p class="small">
     This interface is for quickly browsing literature-derived variants by <b>gene</b>, <b>disease</b>, and <b>study</b>.
@@ -56,52 +56,80 @@ try {
     </div>
 
     <div class="col-6">
-      <div class="card start-here-card">
-        <h3>Start here</h3>
+<div class="card start-here-card">
 
-        <form class="start-here-form" method="get" action="/gene_v2.php">
-  <label><b>Search Gene</b></label><br>
-  <span class="small">e.g. DNMT3A, TET2, STAT3</span>
-  <br><br>
-  <input type="text" name="q" placeholder="Enter gene symbol…" />
-  <br><br>
-  <button type="submit">Search</button>
+<form id="smartSearchForm" class="ncbi-search" method="get">
+  <select id="smartSearchType" class="ncbi-search__select">
+    <option value="all" selected>All</option>
+    <option value="gene">Gene</option>
+    <option value="disease">Disease</option>
+    <option value="study">Study</option>
+    <option value="variant">Variant</option>
+  </select>
+
+  <input id="smartSearchInput"
+         name="q"
+         class="ncbi-search__input"
+         type="text"
+         >
+
+  <button class="ncbi-search__btn" type="submit">Search</button>
 </form>
+  <div class="small muted" style="margin-top:8px;">
+    Examples: gene (DNMT3A), disease (Ulcerative colitis), study (PMID), variant (chr17:44245096 T>A)
+  </div>
+</div>
 
-<form class="start-here-form" method="get" action="/disease_v2.php" style="margin-top:10px;">
-  <label><b>Search Disease</b></label><br>
-  <span class="small">e.g. Ulcerative colitis, DOID:0050146</span>
-  <br><br>
-  <input type="text" name="q" placeholder="Enter disease name or DOID…" />
-  <br><br>
-  <button type="submit">Search</button>
-</form>
-
-<form class="start-here-form" method="get" action="/study_v2.php" style="margin-top:10px;">
-  <label><b>Search Study</b></label><br>
-  <span class="small">e.g. PMID, author, year</span>
-  <br><br>
-  <input type="text" name="q" placeholder="Enter PMID or keyword…" />
-  <br><br>
-  <button type="submit">Search</button>
-</form>
-
-<form class="start-here-form" method="get" action="/variants_v2.php" style="margin-top:10px;">
-  <label><b>Search Variant</b></label><br>
-  <span class="small">e.g. chr17:7675236 C&gt;G, STAT3 p.Y640F</span>
-  <br><br>
-  <input type="text" name="q" placeholder="Enter variant / gene / HGVS…" />
-  <br><br>
-  <button type="submit">Search</button>
-</form>
-
-
-        <div class="small">
-          Tip: browse <a href="/gene_v2.php">all genes</a>, <a href="/disease_v2.php">all diseases</a>, <a href="/study_v2.php">all studies</a>, or <a href="/variants_v2.php">all variants</a>.
-        </div>
+        
+          
+        
       </div>
     </div>
   </div>
 </div>
 
+<script>
+(function(){
+  const form  = document.getElementById('smartSearchForm');
+  const type  = document.getElementById('smartSearchType');
+  const input = document.getElementById('smartSearchInput');
+
+  if (!form || !type || !input) return;
+
+  const routes = {
+    all: "/variants_v2.php",   // global search target
+    gene: "/gene_v2.php",
+    disease: "/disease_v2.php",
+    study: "/study_v2.php",
+    variant: "/variants_v2.php"
+  };
+
+  const placeholders = {
+    all: "",
+    gene: "Search gene (e.g. DNMT3A, TET2, STAT3)",
+    disease: "Search disease (e.g. Ulcerative colitis, DOID:0050146)",
+    study: "Search study (e.g. PMID, author, year)",
+    variant: "Search variant (e.g. chr17:7675236 C>G, STAT3 p.Y640F)"
+  };
+
+  // Update placeholder when dropdown changes
+  function updatePlaceholder(){
+    input.placeholder = placeholders[type.value] || "";
+  }
+  type.addEventListener('change', updatePlaceholder);
+  updatePlaceholder();
+
+  // Route to the right page on submit
+  form.addEventListener('submit', function(e){
+    const t = type.value;
+    form.action = routes[t] || "/";
+
+    // Optional: stop empty searches
+    if (!input.value.trim()) {
+      e.preventDefault();
+      input.focus();
+    }
+  });
+})();
+</script>
 <?php require __DIR__ . "/partials/footer.php"; ?>

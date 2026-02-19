@@ -28,6 +28,43 @@
   <a href="/study_v2.php">Study</a>
   <a href="/variants_v2.php">Variants</a>
 </nav>
-  </div>
+
+</div>
+
+<script>
+(function () {
+  const form = document.getElementById('headerSearchForm');
+  const typeEl = document.getElementById('headerSearchType');
+  const inputEl = document.getElementById('headerSearchInput');
+
+  if (!form) return;
+
+  const routes = {
+    gene: "/gene_v2.php",
+    disease: "/disease_v2.php",
+    study: "/study_v2.php",
+    variant: "/variants_v2.php"
+  };
+
+  const placeholders = {
+    gene: "Search gene (e.g. DNMT3A, TET2, STAT3)",
+    disease: "Search disease (e.g. Ulcerative colitis)",
+    study: "Search study (e.g. PMID 23197547)",
+    variant: "Search variant (e.g. chr17:7675236 C>G)"
+  };
+
+  function updateUI() {
+    inputEl.placeholder = placeholders[typeEl.value];
+  }
+
+  form.addEventListener("submit", function () {
+    form.action = routes[typeEl.value];
+  });
+
+  typeEl.addEventListener("change", updateUI);
+  updateUI();
+})();
+</script>
+</div>
 </header>
   <main class="container">

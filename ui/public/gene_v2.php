@@ -143,24 +143,28 @@ if ($gene !== "" && wants_csv_download()) {
 $pageTitle = "Gene";
 require __DIR__ . "/partials/header.php";
 ?>
+<section class="gene-section">
+  <div class="container">
 
-<div class="card gene-page-card">
-  <h2>Gene</h2>
+    <div class="card gene-page-card">
+      <h2>Gene</h2>
+      <hr class="page-divider">
 
-<form method="get" action="/gene_v2.php" class="form-row">
+      <form method="get" action="/gene_v2.php" class="form-row">
+        <div class="field">
+        <label for="q"><b>Search</b> <span class="small"></span></label>
+          <input id="q" name="q" type="text" value="<?= h($q) ?>" placeholder="Enter gene symbol..." />
+        </div>
+<div class="form-actions">
+          <button type="submit" class="btn">Search</button>
 
-  <label for="q"><b>Gene symbol</b> (e.g., DNMT3A, TET2, STAT3)</label><br>
+          <!-- Download: only works when a gene is searched -->
+              <button type="submit" name="download" value="csv"
+                      class="btn">Download</button>
 
-  <input id="q" name="q" type="text" value="<?= h($q) ?>" placeholder="Enter gene symbol..." />
-<br><br>
-  <button type="submit">Search</button>
-
-  <!-- Download: only works when a gene is searched -->
-  <button type="submit" name="download" value="csv" <?= ($gene === "" ? "disabled" : "") ?>>Download</button>
-
-  <a href="/gene_v2.php" class="btn">Clear</a>
-</form>
-
+          <a href="/gene_v2.php" class="btn">Clear</a>
+        </div>
+      </form>
   <p class="small">
     Tip: search by <b>gene symbol</b> (e.g., DNMT3A, TET2, STAT3). Click a gene to view its variants.
   </p>
@@ -169,6 +173,7 @@ require __DIR__ . "/partials/header.php";
 <?php if ($gene === ""): ?>
 
   <div class="card gene-page-section">
+  <hr class="page-divider page-divider--spaced">
     <h3>Browse all genes</h3>
 
     <?php if (!$geneList): ?>
@@ -321,5 +326,6 @@ require __DIR__ . "/partials/header.php";
   </div>
 
 <?php endif; ?>
-
+</div>
+</section>
 <?php require __DIR__ . "/partials/footer.php"; ?>

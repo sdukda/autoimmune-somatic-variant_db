@@ -159,13 +159,15 @@ $sqlError = "";
 try {
   $stmt = $pdo->prepare("
     SELECT
-      s.gene_symbol,
-      s.ref_genome,
-      s.genomic_variant,
-      COALESCE(s.consequence, 'Unknown') AS consequence,
-      s.n_reports,
-      s.n_studies,
-      s.studies
+  s.gene_symbol,
+  s.ref_genome,
+  s.genomic_variant,
+  s.example_literature_variant_id,
+  s.protein_change,
+  COALESCE(s.consequence, 'Unknown') AS consequence,
+  s.n_reports,
+  s.n_studies,
+  s.studies
     FROM v_literature_summary_by_variant_coords s
     WHERE 1=1
       AND (:consequence = '' OR COALESCE(s.consequence, 'Unknown') = :consequence)
@@ -206,20 +208,25 @@ if (wants_csv_download()) {
 $pageTitle = "Variants";
 require __DIR__ . "/partials/header.php";
 ?>
-
+<div class="variants-page">
 <div class="card">
   <h2>Variants</h2>
+  <div class="section-divider"></div>
 
-  <div class="card">
     <h3>Search &amp; filter</h3>
 
-    <form method="get" action="/variants_v2.php" class="form-row">
-      <label for="q"><b>Search</b></label><br>
-      <input id="q" name="q" type="text" value="<?= h($q) ?>"
-        laceholder="gene / disease / study / HGVS / chr:pos..." style="min-width:340px;" />
-      &nbsp;&nbsp;
+      <form method="get" action="/variants_v2.php" class="variants-filter-form">
 
-      <label for="consequence"><b>Consequence</b></label><br>
+  <div class="filter-grid">
+
+    <div>
+      <label for="q"><b>Search</b></label>
+      <input id="q" name="q" type="text" value="<?= h($q) ?>"
+        placeholder="gene / disease / study / HGVS / chr:pos..." />
+    </div>
+
+    <div>
+      <label for="consequence"><b>Consequence</b></label>
       <select id="consequence" name="consequence">
         <option value="" <?= ($consequenceFilter === "" ? "selected" : "") ?>>All</option>
         <?php foreach ($consequenceOptions as $opt): ?>
@@ -229,16 +236,20 @@ require __DIR__ . "/partials/header.php";
           </option>
         <?php endforeach; ?>
       </select>
+    </div>
 
-      &nbsp;&nbsp;
-<br><br>
-      <button type="submit">Search</button>
-      <button type="submit" name="download" value="csv">Download</button>
-<a class="btn" href="/variants_v2.php">Clear</a>
+  </div>
+
+  <div class="form-actions">
+<button type="submit" class="btn">Search</button>
+<button type="submit" name="download" value="csv" class="btn">Download</button>
+<a href="/variants_v2.php" class="btn">Clear</a>
+</div>
+
+</form>
       <p class="small">
         Tip: Click the genomic variant to open the detail page and then click to open UCSC at that coordinate.
       </p>
-    </form>
 
 
     <?php if ($sqlError): ?>
@@ -246,8 +257,8 @@ require __DIR__ . "/partials/header.php";
         SQL error: <?= h($sqlError) ?>
       </div>
     <?php endif; ?>
-  </div>
-</div>
+    </div> <!-- end Search card -->
+
   <div class="card">
     <h3>Browse all variants</h3>
     <div class="small">Showing <?= count($rows) ?> rows (limit 2000).</div>
@@ -265,13 +276,16 @@ require __DIR__ . "/partials/header.php";
           <th><?= variants_sort_link('Consequence','consequence',$q,$consequenceFilter,$sort,$dir) ?></th>
           <th><?= variants_sort_link('Reports','n_reports',$q,$consequenceFilter,$sort,$dir) ?></th>
           <th><?= variants_sort_link('Studies','n_studies',$q,$consequenceFilter,$sort,$dir) ?></th>
-          <th>Studies</th>
         </tr>
 
         <?php foreach ($rows as $r): ?>
           <?php
             $gv   = (string)($r["genomic_variant"] ?? "");
             $ucsc = ucsc_url_from_genomic_variant((string)($r["ref_genome"] ?? ""), $gv);
+
+    // NEW: for rows where genomic_variant is missing
+    $exampleId = (int)($r["example_literature_variant_id"] ?? 0);
+    $protein   = (string)($r["protein_change"] ?? "");
           ?>
           <tr>
             <td class="col-gene">
@@ -287,19 +301,25 @@ require __DIR__ . "/partials/header.php";
     <a href="/variant_v2.php?variant=<?= urlencode($gv) ?>">
       <?= h($gv) ?>
     </a>
+
+  <?php elseif (!empty($r["example_literature_variant_id"])): ?>
+    <a href="/variant_v2.php?id=<?= (int)$r["example_literature_variant_id"] ?>">
+      <?= !empty($r["protein_change"]) 
+            ? h($r["protein_change"]) 
+            : "Not reported" ?>
+    </a>
+
   <?php else: ?>
-    NA
+    <span class="small">Not reported</span>
   <?php endif; ?>
 </td>
             <td><?= na($r["consequence"] ?? null, "Unknown") ?></td>
             <td><?= (int)($r["n_reports"] ?? 0) ?></td>
             <td><?= (int)($r["n_studies"] ?? 0) ?></td>
-            <td class="small"><?= na($r["studies"] ?? null) ?></td>
           </tr>
         <?php endforeach; ?>
       </table>
     <?php endif; ?>
   </div>
 </div>
-
 <?php require __DIR__ . "/partials/footer.php"; ?>

@@ -1,51 +1,21 @@
-# macOS
+.DS_Store
+*.numbers
+
+# Mac
 .DS_Store
 
-# editor temp files
-*.swp
-*.swo
-*~
-*.tmp
-
-# logs / outputs
+# Logs
 *.out
 *.err
 
-# env / secrets
-.env
-ui/public/.env
-
-# ----------------------------
-# Local working files (do not commit)
-# ----------------------------
-local_work/
-documentation/
-write_up_docs/
-paper_datasets/
-dataset_master/
-sql_old/
-sql/seeds_archive/
-
-# Parsed / intermediate outputs
-*.tsv
-*.txt
-coordinates.txt
-
-# Word/Office temp files
-~$*
-*.docx
-
-# macOS
-.DS_Store
-
-# editor temp
+# Vim swap
 *.swp
-*.swo
-*~
-# Local secrets (never commit)
+
+# Local configs
 ui/config/db.local.php
 
-# Personal files
-CoE*
-*.certificate*
-.DS_Store
+# Local working directories
+local_work/
+
+# Docs images temp
+docs/images/
