@@ -49,10 +49,12 @@ Quick Stats panel provides real-time summary metrics derived from the underlying
 
 **Entity	Description**
 ```
-Studies	Number of curated peer-reviewed publications
-Variants	Total number of distinct somatic variants
-Genes	Unique genes with reported somatic variants
-Diseases	Distinct autoimmune or inflammatory conditions
+| Category  | Description |
+|-----------|------------|
+| Studies   | Number of curated peer-reviewed publications |
+| Variants  | Total number of distinct somatic variants |
+| Genes     | Unique genes with reported somatic variants |
+| Diseases  | Distinct autoimmune or inflammatory conditions |
 ```
 The statistics provide an immediate overview of:
 ```
@@ -115,11 +117,12 @@ Search panel allows users to query the database using a HGNC gene symbol (e.g., 
 ## 3.2 Browse All Genes Table
 The main table presents an aggregated summary for each gene in the database.
 ```
-Column	Description
-Gene	HGNC gene symbol (clickable)
-Variants	Number of distinct genomic variants reported for the gene
-Studies	Number of unique studies reporting variants in this gene
-Diseases	Number of distinct diseases in which variants were reported
+| Column   | Description |
+|----------|-------------|
+| Gene     | HGNC gene symbol (clickable) |
+| Variants | Number of distinct genomic variants reported for the gene |
+| Studies  | Number of unique studies reporting variants in this gene |
+| Diseases | Number of distinct diseases in which variants were reported |
 ```
 ## 3.3 Sorting Functionality
 
@@ -182,18 +185,19 @@ This table represents the core evidence layer of the database. Each row correspo
 
 ## 3.6.2 Column-Level Explanation
 ```
-Column	Description
-cDNA (HGVS)	HGVS cDNA-level description as reported or normalized
-Protein	HGVS protein change (if available)
-Variant	Genomic coordinate (paper or lifted) in chr:pos REF>ALT format
-Variant type	SNV, deletion, insertion, frameshift, etc.
-Consequence	Functional effect (e.g., missense, nonsense, frameshift)
-Disease	Associated disease (clickable)
-Category	Disease classification grouping
-DOID	Disease Ontology identifier
-Cell type	Tissue or cell population where mutation was detected
-CL ID	Cell Ontology identifier
-Study	Literature source (clickable)
+| Column        | Description |
+|--------------|-------------|
+| cDNA (HGVS)  | HGVS cDNA-level description as reported or normalized |
+| Protein      | HGVS protein change (if available) |
+| Variant      | Genomic coordinate (paper-reported or lifted) in `chr:pos REF>ALT` format |
+| Variant type | SNV, deletion, insertion, frameshift, etc. |
+| Consequence  | Functional effect (e.g., missense, nonsense, frameshift) |
+| Disease      | Associated disease (clickable) |
+| Category     | Disease classification grouping |
+| DOID         | Disease Ontology identifier |
+| Cell type    | Tissue or cell population where mutation was detected |
+| CL ID        | Cell Ontology identifier |
+| Study        | Literature source (clickable) |
 ```
 
 ## 3.6.3 Evidence Traceability
@@ -247,14 +251,15 @@ Main table displays aggregated disease-level statistics. Each row corresponds to
 
 ## 4.2 Column-Level Explanation
 ```
-Column	Description
-Disease	Curated disease name (clickable)
-Category	Disease grouping (e.g., autoimmune, autoinflammatory, other)
-DOID	Disease Ontology identifier
-Variants	Number of unique somatic variants reported
-Genes	Number of genes affected
-Studies	Number of distinct publications reporting variants
-Cell types	Number of distinct cell/tissue contexts
+| Column     | Description |
+|------------|-------------|
+| Disease    | Curated disease name (clickable) |
+| Category   | Disease grouping (e.g., autoimmune, autoinflammatory, other) |
+| DOID       | Disease Ontology identifier |
+| Variants   | Number of unique somatic variants reported |
+| Genes      | Number of genes affected |
+| Studies    | Number of distinct publications reporting variants |
+| Cell types | Number of distinct cell or tissue contexts |
 ```
 Disease Browse View supports questions such as:
 ```
@@ -288,10 +293,11 @@ This hierarchical layout enables researchers to evaluate disease-specific mutati
 
 At the top of the page, core disease attributes are displayed:
 ```
-Field	Description
-Disease name	Curated disease label
-Category	Classification (e.g., autoimmune, autoinflammatory)
-DOID	Disease Ontology identifier
+| Field         | Description |
+|--------------|-------------|
+| Disease name | Curated disease label |
+| Category     | Classification (e.g., autoimmune, autoinflammatory) |
+| DOID         | Disease Ontology identifier |
 ```
 **Example:**
 ```
@@ -305,12 +311,13 @@ The DOID enables standardized mapping to external ontologies.
 
 The "Cell types in this disease" panel summarizes the cellular contexts in which somatic variants were reported.
 ```
-Column	Description
-Cell type	Reported tissue or immune cell
-CL ID	Cell Ontology identifier
-Variants	Number of distinct variants observed
-Studies	Number of supporting publications
-Notes	Optional remarks
+| Column    | Description |
+|-----------|-------------|
+| Cell type | Reported tissue or immune cell |
+| CL ID     | Cell Ontology identifier |
+| Variants  | Number of distinct variants observed |
+| Studies   | Number of supporting publications |
+| Notes     | Optional remarks |
 ```
 This enables investigation of clonal or lineage-specific mutation patterns.
 
@@ -318,9 +325,10 @@ This enables investigation of clonal or lineage-specific mutation patterns.
 
 The "Top genes" panel summarizes genes most frequently mutated in the selected disease.
 ```
-Column	Description
-Gene	Gene symbol (clickable)
-Variants	Number of unique variants
+| Column   | Description |
+|----------|-------------|
+| Gene     | Gene symbol (clickable) |
+| Variants | Number of unique variants |
 ```
 This allows rapid identification of recurrent or candidate driver genes within a disease context.
 
@@ -328,16 +336,17 @@ This allows rapid identification of recurrent or candidate driver genes within a
 "Recent variants" section displays curated mutation-level evidence.
 Columns include:
 ```
-Column	Description
-Variant ID	Internal identifier
-Study	Source publication (clickable)
-Gene	Affected gene
-cDNA	HGVS cDNA notation
-Protein	HGVS protein change
-Type	Variant class (SNV, insertion, deletion)
-Driver	Curated driver classification
-Cell type	Reported cell/tissue context
-CL ID	Cell Ontology identifier
+| Column      | Description |
+|-------------|-------------|
+| Variant ID  | Internal identifier |
+| Study       | Source publication (clickable) |
+| Gene        | Affected gene |
+| cDNA        | HGVS cDNA notation |
+| Protein     | HGVS protein change |
+| Type        | Variant class (SNV, insertion, deletion) |
+| Driver      | Curated driver classification |
+| Cell type   | Reported cell or tissue context |
+| CL ID       | Cell Ontology identifier |
 ```
 This section provides:
 ```
@@ -384,11 +393,12 @@ Search field supports flexible queries including:
 ## 5.2 Study Table Columns
 The table displays the following attributes:
 ```
-Column	Description
-Study	Full publication title (clickable link to study detail page)
-Year	Publication year
-PMID	PubMed identifier (clickable)
-DOI	Digital Object Identifier (clickable external link)
+| Column | Description |
+|--------|-------------|
+| Study  | Full publication title (clickable link to study detail page) |
+| Year   | Publication year |
+| PMID   | PubMed identifier (clickable) |
+| DOI    | Digital Object Identifier (clickable external link) |
 ```
 ## 5.3 Sorting Capabilities
 Column headers include sorting toggles (▲▼), allowing:
@@ -423,11 +433,12 @@ Study Detail View presents a structured, study-centric summary of all curated so
 
 The upper section displays core study attributes:
 ```
-Field	Description
-Title	Full publication title
-Year	Publication year
-PMID	PubMed identifier (clickable external link)
-DOI	Digital Object Identifier (clickable external link)
+| Field | Description |
+|-------|-------------|
+| Title | Full publication title |
+| Year  | Publication year |
+| PMID  | PubMed identifier (clickable external link) |
+| DOI   | Digital Object Identifier (clickable external link) |
 ```
 These fields allow direct verification against the original peer-reviewed source.
 
@@ -436,19 +447,21 @@ These fields allow direct verification against the original peer-reviewed source
 “Diseases in this study” panel lists all diseases investigated in the publication.
 Columns include:
 ```
-Column	Meaning
-Disease	Disease name (clickable link to disease page)
-Category	Broad classification (e.g., autoimmune, inflammatory)
-DOID	Disease Ontology ID
-Variants	Number of curated variants reported in this disease within the study
+| Column   | Meaning |
+|----------|---------|
+| Disease  | Disease name (clickable link to disease page) |
+| Category | Broad classification (e.g., autoimmune, inflammatory) |
+| DOID     | Disease Ontology identifier |
+| Variants | Number of curated variants reported in this disease within the study |
 ```
 ## 5.6.3 Gene Summary Panel
 
 “Genes in this study” panel lists all genes reported as mutated.
 ```
-Column	Meaning
-Gene	HGNC gene symbol (clickable)
-Variants	Number of distinct variants reported for the gene in this study
+| Column   | Description |
+|----------|-------------|
+| Gene     | HGNC gene symbol (clickable) |
+| Variants | Number of distinct variants reported for the gene in this study |
 ```
 This panel provides a gene-level distribution of mutations.
 
@@ -456,16 +469,17 @@ This panel provides a gene-level distribution of mutations.
 
 The lower section presents detailed variant-level records. Each row represents one curated variant entry.
 ```
-Column	Description
-Variant ID	Internal database identifier
-Gene	Gene symbol
-cDNA	HGVS cDNA annotation (when available)
-Protein	Protein-level HGVS annotation
-Type	Variant type (SNV, insertion, deletion, etc.)
-Consequence	Functional consequence (e.g., frameshift)
-Driver	Curated driver classification
-Disease	Disease context
-Cell type	Reported cellular compartment
+| Column      | Description |
+|-------------|-------------|
+| Variant ID  | Internal database identifier |
+| Gene        | Gene symbol |
+| cDNA        | HGVS cDNA annotation (when available) |
+| Protein     | Protein-level HGVS annotation |
+| Type        | Variant type (SNV, insertion, deletion, etc.) |
+| Consequence | Functional consequence (e.g., frameshift) |
+| Driver      | Curated driver classification |
+| Disease     | Disease context |
+| Cell type   | Reported cellular compartment |
 ```
 ## 5.6.5 Cross-Entity Navigation
 
@@ -523,13 +537,14 @@ Dropdown menu allows filtering by functional consequence, including:
 
 Each row represents a unique genomic coordinate.
 ```
-Column	Description
-Gene	HGNC gene symbol (clickable)
-Reference genome	GRCh37 or GRCh38
-Genomic variant	Chromosome, position, reference and alternate allele
-Consequence	Functional annotation
-Reports	Number of literature-reported instances
-Studies	Number of distinct studies reporting this coordinate
+| Column            | Description |
+|-------------------|-------------|
+| Gene              | HGNC gene symbol (clickable) |
+| Reference genome  | GRCh37 or GRCh38 |
+| Genomic variant   | Chromosome, position, reference, and alternate allele |
+| Consequence       | Functional annotation |
+| Reports           | Number of literature-reported instances |
+| Studies           | Number of distinct studies reporting this coordinate |
 ```
 ## 6.2 Coordinate Standardization
 
@@ -616,11 +631,12 @@ The upper panel displays a summarized view of the genomic coordinate.
 
 **Displayed Fields**
 ```
-Field	Description
-Gene	HGNC gene symbol (clickable link to Gene page)
-Reference genome	GRCh37 or GRCh38
-Genomic variant	Standardized coordinate (chr:pos REF>ALT)
-Consequence	Functional classification
+| Field             | Description |
+|-------------------|-------------|
+| Gene              | HGNC gene symbol (clickable link to Gene page) |
+| Reference genome  | GRCh37 or GRCh38 |
+| Genomic variant   | Standardized coordinate (`chr:pos REF>ALT`) |
+| Consequence       | Functional classification |
 ```
 * Reports	Total curated literature entries
 * Studies	Number of distinct studies reporting the variant
@@ -638,15 +654,16 @@ Coordinate displayed reflects the curated reference genome build. The system ens
 
 The lower panel lists individual curated evidence entries. Each row corresponds to a distinct literature-derived record.
 ```
-Evidence Table Columns
-Column	Description
-cDNA (HGVS)	Transcript-level mutation
-Protein	Amino acid change (if reported)
-Variant type	SNV, insertion, deletion, etc.
-Consequence	Functional classification
-Disease	Disease context (clickable)
-Cell type	Affected cellular compartment
-Study	Publication reporting the mutation
+
+| Column        | Description |
+|---------------|-------------|
+| cDNA (HGVS)   | Transcript-level mutation |
+| Protein       | Amino acid change (if reported) |
+| Variant type  | SNV, insertion, deletion, etc. |
+| Consequence   | Functional classification |
+| Disease       | Disease context (clickable) |
+| Cell type     | Affected cellular compartment |
+| Study         | Publication reporting the mutation |
 ```
 ## 6.8.4 Cross-Navigation
 
@@ -696,17 +713,19 @@ The file is exported as:
 
 The export includes integrated fields derived from the curated database view:
 ```
-Field	Description
-gene_symbol	HGNC gene symbol
-ref_genome	Reference genome build (GRCh37 / GRCh38)
-genomic_variant	Chromosome position with ref/alt allele
-variant_type	SNV, insertion, deletion, indel
-consequence	Functional classification
-study_id	Internal study identifier
-disease_name	Associated disease
-cell_type_name	Reported cell type
-is_driver	Driver classification label
-evidence_type	Evidence annotation
+
+| Field             | Description |
+|-------------------|-------------|
+| gene_symbol       | HGNC gene symbol |
+| ref_genome        | Reference genome build (GRCh37 / GRCh38) |
+| genomic_variant   | Chromosome position with reference and alternate allele |
+| variant_type      | SNV, insertion, deletion, indel |
+| consequence       | Functional classification |
+| study_id          | Internal study identifier |
+| disease_name      | Associated disease |
+| cell_type_name    | Reported cell type |
+| is_driver         | Driver classification label |
+| evidence_type     | Evidence annotation |
 ```
 ## 7.4 Download Behaviour Under Filtering
 
