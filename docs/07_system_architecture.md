@@ -12,7 +12,7 @@ Versioning and reproducibility are maintained through Git-based source control, 
 
 # 1.2 Layered Architectural Model
 
-![Architectural Model](./images/Autoimmune_Architecture_v0.3.png)
+![Architectural Model](./images/Autoimmune_Architecture_Portal_v0.3.png)
 
 The system follows a five-layer architecture model:
 
