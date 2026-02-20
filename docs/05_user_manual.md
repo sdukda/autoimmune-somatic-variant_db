@@ -611,7 +611,7 @@ Download button exports the currently filtered dataset in tabular format, suitab
 ```
 ## 6.8 Variant Detail View (Coordinate Mode)
 
-![Variant Detail Page](variant_02_evidence.png)
+![Variant Detail Page](./images/variant_02_evidence.png)
 
 *Figure 9. Variant detail page.*
 
