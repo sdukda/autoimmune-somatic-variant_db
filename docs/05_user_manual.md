@@ -283,6 +283,7 @@ Loads the Disease Detail View, where:
 *Figure 5. Disease detail page.*
 
 The Disease Detail View organizes information into three sections:
+``
 •	Disease metadata (category and DOID)
 •	Cell type distribution of variants
 •	Top recurrent genes and recent variants
