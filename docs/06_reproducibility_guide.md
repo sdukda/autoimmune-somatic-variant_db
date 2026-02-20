@@ -1,8 +1,19 @@
-t tag:
+# 06_reproducibility_guide.md (Unified Style Version)
+# 1. Reproducibility Guide
+
+This section describes how to reconstruct the **Autoimmune Somatic Variant Database (autoimmune_db)** from source using version-controlled migrations and curated seed files.
+
+The database is fully reproducible from the public GitHub repository and can be rebuilt independently using MySQL and PHP.
+
+---
+
+## 2. Reference Version
+
+This guide corresponds to the Git release tag:
 
 **v0.3-summary-enhancement**
 
-All schema structure, analytical views, and curated data referenced in this guide reflect this specific tagged release.
+All schema definitions, analytical views, and curated data described in this document reflect that tagged release.
 
 To reproduce the exact version:
 
@@ -10,8 +21,11 @@ To reproduce the exact version:
 git clone https://github.com/sdukda/autoimmune-somatic-variant_db.git
 cd autoimmune-somatic-variant_db
 git checkout v0.3-summary-enhancement
-3. System Requirements
-Core Software
+```
+## 3. System Requirements
+
+The following software is required:
+
 MySQL 8.0+
 
 PHP 8+
@@ -20,16 +34,16 @@ Git
 
 Web server (Apache, Nginx, or PHP built-in server)
 
-Optional (Development)
-Sequel Ace / MySQL Workbench
+Optional tools for development:
 
-VS Code / Vim / Nano
+Sequel Ace or MySQL Workbench
 
-Lucidchart (for ER diagrams)
+VS Code, Vim, or Nano
 
-4. Repository Structure
-arduino
-Copy code
+## 4.  Repository Structure
+
+The repository is organised as follows:
+
 autoimmune_db/
 ├── docs/
 ├── sql/
@@ -40,178 +54,157 @@ autoimmune_db/
 │   ├── public/
 │   └── config/
 └── README.md
-Important Clarification
-The repository does not use file-based staging folders.
 
-Instead:
 
-Staging tables exist inside MySQL (e.g., stg_literature_driver_variants)
+Key points:
 
-Snapshot tables exist inside MySQL (e.g., literature_driver_variants_v1_snapshot)
+Schema definitions are stored in sql/migrations/
 
-Curated CSV files are version-controlled under sql/seeds/
+Curated data files are stored in sql/seeds/
 
-5. Database Reconstruction Procedure
-Step 1 — Create Database
-sql
-Copy code
+The web interface is located in ui/public/
+
+Documentation files are stored in docs/
+
+## 5.  Database Reconstruction
+
+**Step 1 – Create the Database**
 CREATE DATABASE autoimmune_db
   CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
-    Step 2 — Apply Schema Migrations
-    Run all migration files in numeric order:
+  COLLATE utf8mb4_unicode_ci;
 
-    bash
-    Copy code
-    mysql -u root -p autoimmune_db < sql/migrations/001_create_all_tables.sql
-    ...
-    mysql -u root -p autoimmune_db < sql/migrations/053_update_v_literature_summary_by_variant_coords_add_id.sql
-    Migrations define:
+**Step 2 – Apply Migration Files**
 
-    Core entity tables (gene, disease, study, variant, cell_type)
+Run migration scripts in numeric order:
 
-    Foreign keys and referential constraints
+mysql -u root -p autoimmune_db < sql/migrations/001_create_all_tables.sql
+...
+mysql -u root -p autoimmune_db < sql/migrations/053_update_v_literature_summary_by_variant_coords_add_id.sql
 
-    Indexes and unique keys
+These scripts define:
 
-    Analytical views (e.g., v_literature_variants_flat)
+Core entity tables (gene, disease, study, variant, cell_type)
 
-    Snapshot preservation logic
+Foreign key constraints
 
-    Step 3 — Load Seed Data
-    bash
-    Copy code
-    mysql -u root -p autoimmune_db < sql/seeds/001_seed_core_lookups.sql
-    ...
-    mysql -u root -p autoimmune_db < sql/seeds/021_stage_literature_data.sql
-    Seed data includes:
+Indexes and unique constraints
 
-    Reference genomes
+Analytical views (e.g., v_literature_variants_flat)
 
-    Disease ontology identifiers (DOID)
+Snapshot preservation logic
 
-    Cell ontology identifiers (CL)
-
-    Literature-curated somatic driver variants
-
-    Evidence classifications
-
-    6. Application Layer Configuration
-    Create:
-
-    lua
-    Copy code
-    ui/config/db.local.php
-    Set local credentials:
-
-    php
-    Copy code
-    return [
-      'host' => '127.0.0.1',
-        'dbname' => 'autoimmune_db',
-          'user' => 'root',
-            'pass' => 'your_password'
-            ];
-            This file is ignored via .gitignore for security.
-
-            7. Launching the Portal
-            bash
-            Copy code
-            php -S 127.0.0.1:8080 -t ui/public
-            Access:
-
-            cpp
-            Copy code
-            http://127.0.0.1:8080
-            8. Schema Architecture and ERD Alignment
-            The database schema was developed using an Entity–Relationship Diagram (ERD) prior to physical implementation.
-
-            The ERD served as the conceptual blueprint for relational schema construction and ensured normalization and referential integrity.
+**Step 3 – Load Seed Data**
+mysql -u root -p autoimmune_db < sql/seeds/001_seed_core_lookups.sql
+...
+mysql -u root -p autoimmune_db < sql/seeds/021_stage_literature_data.sql
 
 
+Seed files populate:
 
-            Figure X. Entity–Relationship Diagram of the autoimmune_db schema (v0.3).
+Reference genomes
 
-            The relational schema generated by executing the migration scripts at tag:
+Disease ontology identifiers (DOID)
 
-            v0.3-summary-enhancement
+Cell ontology identifiers (CL)
 
-            is structurally identical to this ERD.
+Literature-curated somatic variants
 
-            9. Validation Checklist
-            After setup, confirm:
+Evidence classifications
 
-            Variants Page
-            Varia# 06 – Reproducibility Guide  
-## Autoimmune Somatic Variant Database (autoimmune_db)
+## 6. Application Configuration
 
----
+Create the file:
 
-## 1. Purpose and Scope
+ui/config/db.local.php
 
-This document provides complete technical instructions for reproducing the Autoimmune Somatic Variant Database Portal from source code and curated literature data.
 
-It provides step-by-step instructions to:
+Example configuration:
 
-- Recreate the schema  
-- Load curated literature data  
-- Build analytical views  
-- Launch the PHP web interface  
-- Validate that the system functions correctly  
+return [
+  'host' => '127.0.0.1',
+  'dbname' => 'autoimmune_db',
+  'user' => 'root',
+  'pass' => 'your_password'
+];
 
-This guide ensures that the database can be rebuilt independently using only:
 
-- The public GitHub repository  
-- MySQL (v8.0+)  
-- PHP (v8+)  
-- Ordered SQL migration scripts  
+This file is excluded from version control for security.
 
----
+## 7.  Launching the Portal
 
-## 2. Reference Version
+Start a local PHP server:
 
-This document describes the system state corresponding to thents display correctly
+php -S 127.0.0.1:8080 -t ui/public
 
-Sorting works
+
+Open in browser:
+
+http://127.0.0.1:8080
+
+## 8.  ERD and Schema Alignment
+
+The database schema was designed using an Entity–Relationship Diagram (ERD) prior to implementation.
+
+The ERD served as the conceptual blueprint for relational schema construction and ensured normalization and referential integrity.
+
+![Entity-Relationship Diagram](.images/ERD_autoimmune_db_v0.3.png)
+Figure 12. Entity–Relationship Diagram of the autoimmune_db schema (v0.3).
+
+The schema generated by executing the migration scripts at tag v0.3-summary-enhancement is structurally identical to this ERD.
+
+## 9.  Validation Checklist
+
+After setup, confirm the following:
+
+Variants Page
+
+Variants display correctly
+
+Sorting functions properly
 
 Filtering works
 
 CSV download works
 
 Variant Detail Page
-Evidence rows display
 
-Protein changes visible
+Evidence rows display correctly
+
+Protein changes are visible
 
 Genomic coordinates link to UCSC
 
 PMID links to PubMed
 
 Gene Page
-Gene summary correct
 
-Associated diseases correct
+Gene summary displays correctly
+
+Associated diseases appear
 
 Disease Page
-Disease ontology ID displayed
 
-Linked studies correct
+Disease ontology ID is displayed
+
+Linked studies are correct
 
 Study Page
-Study metadata visible
 
-Variant counts accurate
+Study metadata is visible
 
-10. Data Provenance & Traceability
-Every literature variant includes:
+Variant counts are accurate
+
+## 10.  Data Provenance and Traceability
+
+Each curated variant record includes:
 
 Study reference
 
-Reference genome (paper-reported)
+Paper-reported reference genome
 
 Lifted genomic coordinates
 
-Disease mapping (DOID)
+Disease ontology mapping (DOID)
 
 Cell ontology mapping (CL)
 
@@ -227,14 +220,15 @@ Disease context
 
 Curation record
 
-11. Version Control & Reproducibility Guarantees
-Reproducibility is ensured by:
+## 11. Version Control and Reproducibility
+
+Reproducibility is ensured through:
 
 Ordered SQL migrations
 
-Seed files tracked in Git
+Version-controlled seed files
 
-Snapshot tables preserving analysis state
+Snapshot preservation tables
 
 Referential integrity constraints
 
@@ -242,26 +236,18 @@ No manual UI-based edits to core tables
 
 The database can be rebuilt identically at any specific Git commit or tagged release.
 
-12. Scientific Reproducibility Statement
-This system is:
+## 12.  Scientific Reproducibility Statement
+
+The autoimmune_db system is:
 
 Literature-driven
-
-Fully version-controlled
 
 Ontology-mapped
 
 Genome-build aware
 
+Fully version-controlled
+
 Reconstructible from curated CSV source files
 
-The database represents a reproducible computational research asset.
-
-13. Contact & Maintenance
-Maintainer:
-James Cook University
-
-Repository:
-https://github.com/sdukda/autoimmune-somatic-variant_db
-
-
+It represents a reproducible computational research asset suitable for academic dissemination.
