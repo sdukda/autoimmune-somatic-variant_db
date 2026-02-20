@@ -6,15 +6,17 @@
 The Autoimmune Somatic Variants Portal is a curated research database and web interface designed to provide structured access to literature-derived somatic variants implicated in autoimmune and inflammatory diseases.
 
 The system integrates:
-```
-•	peer-reviewed somatic variant data
-•	standardized genomic coordinates
-•	reference genome (GRCh37 / GRCh38)
-•	disease Ontology (DOID) 
-•	cell Ontology (CL) 
-•	driver mutation classification
-•	cross-study aggregation and recurrence metrics
-```
+
+- peer-reviewed somatic variant data
+- standardized genomic coordinates
+- reference genome (GRCh37 / GRCh38)
+- disease Ontology (DOID) 
+- cell Ontology (CL) 
+- driver mutation classification
+- cross-study aggregation and recurrence metrics
+
+> **System Context:**  
+> For an overview of the architectural design of the Autoimmune Somatic Variant Portal, including data curation, validation, database structure, and web application components, see [07_system_architecture.md](./07_system_architecture.md).
 This manual provides a comprehensive guide for navigating and using the portal. 
 
 ## 2. Homepage Overview
