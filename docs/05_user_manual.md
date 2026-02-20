@@ -46,7 +46,7 @@ Navigation bar located at the top right provides access to the major database en
 Quick Stats panel provides real-time summary metrics derived from the underlying database:
 
 
-**Entity	Description
+**Entity	Description**
 Studies	Number of curated peer-reviewed publications
 Variants	Total number of distinct somatic variants
 Genes	Unique genes with reported somatic variants
@@ -67,7 +67,7 @@ Search interface supports flexible query types via a dropdown selector and input
 •	Study identifier (e.g., PMID)
 •	Genomic coordinate (e.g., chr17:44245096 T>A)
 
-**Functionality
+**Functionality**
 •	dropdown allows selection of query scope (e.g., search all entities or restrict to a specific entity type).
 •	input field accepts structured coordinate strings.
 •	search button executes the query and routes to the relevant result page.
@@ -91,16 +91,16 @@ Selecting a gene symbol opens the Gene Detail View, which provides variant-level
 
 Search panel allows users to query the database using a HGNC gene symbol (e.g., DNMT3A, TET2, STAT3).
 
-**Input Field
+**Input Field**
 •	accepts gene symbols
 •	case-insensitive matching
 
-**Buttons
+**Buttons**
 •	Search — Executes the query and filters results.
 •	Download — Exports the current gene-level summary as a structured file (e.g., CSV).
 •	Clear — Resets the search field and returns to full browse mode.
 
-**Feature supports:
+**Feature supports:**
 •	retrieval of genes of interest
 •	validation of whether a gene is represented in the curated dataset
 •	quantitative assessment of gene recurrence across studies
@@ -108,7 +108,7 @@ Search panel allows users to query the database using a HGNC gene symbol (e.g., 
 ## 3.2 Browse All Genes Table
 The main table presents an aggregated summary for each gene in the database.
 
-**Column	Description
+Column	Description
 Gene	HGNC gene symbol (clickable)
 Variants	Number of distinct genomic variants reported for the gene
 Studies	Number of unique studies reporting variants in this gene
@@ -131,7 +131,6 @@ Clicking a gene symbol (e.g., ARID1A) redirects the user to the detailed Gene Vi
 •	driver classification
 •	reference genome reporting
 
-
 ## 3.6 Gene Detail View (Example: ARID1A)
 
 ![Gene Detail Page](./images/gene_02_detail.png)
@@ -152,7 +151,7 @@ This structure allows users to evaluate gene-level mutational burden across auto
 
 The page contains three main components:
 
-**a. Gene Search Bar
+**a. Gene Search Bar**
 
 Allows users to:
 •	enter a new gene symbol
@@ -160,18 +159,18 @@ Allows users to:
 •	export gene-specific data
 •	reset the query
 
-**b. Results Summary
+**b. Results Summary**
 
-**Example:
+**Example:**
 Results for gene: ARID1A  
 Showing 37 rows (limit 2000)
 
-**c. Variant Evidence Table
+**c. Variant Evidence Table**
 This table represents the core evidence layer of the database. Each row corresponds to a literature-derived somatic variant instance.
 
 ## 3.6.2 Column-Level Explanation
 
-**Column	Description
+Column	Description
 cDNA (HGVS)	HGVS cDNA-level description as reported or normalized
 Protein	HGVS protein change (if available)
 Variant	Genomic coordinate (paper or lifted) in chr:pos REF>ALT format
@@ -220,19 +219,19 @@ Clicking a disease opens the Disease Detail View, which presents variant and cel
 
 Disease Browse page contains:
 
-**a. Search Interface
+**a. Search Interface**
 Search bar allows filtering by:
 •	disease name
 •	disease ontology identifier (DOID)
 •	category
 
-**b. Summary Table
+**b. Summary Table**
 
 Main table displays aggregated disease-level statistics. Each row corresponds to one disease entity in the database.
 
 ## 4.2 Column-Level Explanation
 
-**Column	Description
+Column	Description
 Disease	Curated disease name (clickable)
 Category	Disease grouping (e.g., autoimmune, autoinflammatory, other)
 DOID	Disease Ontology identifier
@@ -271,12 +270,12 @@ This hierarchical layout enables researchers to evaluate disease-specific mutati
 
 At the top of the page, core disease attributes are displayed:
 
-**Field	Description
+Field	Description
 Disease name	Curated disease label
 Category	Classification (e.g., autoimmune, autoinflammatory)
 DOID	Disease Ontology identifier
 
-**Example:
+**Example:**
 •	Disease: Rheumatoid arthritis
 •	DOID: DOID:7148
 •	Category: autoimmune
@@ -287,7 +286,7 @@ The DOID enables standardized mapping to external ontologies.
 
 The "Cell types in this disease" panel summarizes the cellular contexts in which somatic variants were reported.
 
-**Column	Description
+Column	Description
 Cell type	Reported tissue or immune cell
 CL ID	Cell Ontology identifier
 Variants	Number of distinct variants observed
@@ -300,7 +299,7 @@ This enables investigation of clonal or lineage-specific mutation patterns.
 
 The "Top genes" panel summarizes genes most frequently mutated in the selected disease.
 
-**Column	Description
+Column	Description
 Gene	Gene symbol (clickable)
 Variants	Number of unique variants
 
@@ -310,7 +309,7 @@ This allows rapid identification of recurrent or candidate driver genes within a
 "Recent variants" section displays curated mutation-level evidence.
 Columns include:
 
-**Column	Description
+Column	Description
 Variant ID	Internal identifier
 Study	Source publication (clickable)
 Gene	Affected gene
@@ -397,7 +396,7 @@ Study Detail View presents a structured, study-centric summary of all curated so
 
 The upper section displays core study attributes:
 
-**Field	Description
+Field	Description
 Title	Full publication title
 Year	Publication year
 PMID	PubMed identifier (clickable external link)
@@ -410,7 +409,7 @@ These fields allow direct verification against the original peer-reviewed source
 “Diseases in this study” panel lists all diseases investigated in the publication.
 Columns include:
 
-**Column	Meaning
+Column	Meaning
 Disease	Disease name (clickable link to disease page)
 Category	Broad classification (e.g., autoimmune, inflammatory)
 DOID	Disease Ontology ID
@@ -430,7 +429,7 @@ This panel provides a gene-level distribution of mutations.
 
 The lower section presents detailed variant-level records. Each row represents one curated variant entry.
 
-**Column	Description
+Column	Description
 Variant ID	Internal database identifier
 Gene	Gene symbol
 cDNA	HGVS cDNA annotation (when available)
@@ -440,7 +439,6 @@ Consequence	Functional consequence (e.g., frameshift)
 Driver	Curated driver classification
 Disease	Disease context
 Cell type	Reported cellular compartment
-
 
 ## 5.6.5 Cross-Entity Navigation
 
@@ -474,7 +472,7 @@ Users may filter results by consequence, gene, disease, or coordinate before exp
 
 ## 6.1	Search and Filtering
 
-**a.	Global Search Field
+**a.	Global Search Field**
 
 Search bar supports flexible queries, including:
 •	Gene symbol (e.g., DNMT3A)
@@ -483,7 +481,7 @@ Search bar supports flexible queries, including:
 •	HGVS cDNA or protein notation
 •	Genomic coordinate (e.g., chr12:8857315 C>T)
 
-**b.	Consequence Filter
+**b.	Consequence Filter**
 
 Dropdown menu allows filtering by functional consequence, including:
 •	frameshift
@@ -496,7 +494,7 @@ Dropdown menu allows filtering by functional consequence, including:
 
 Each row represents a unique genomic coordinate.
 
-**Column	Description
+Column	Description
 Gene	HGNC gene symbol (clickable)
 Reference genome	GRCh37 or GRCh38
 Genomic variant	Chromosome, position, reference and alternate allele
@@ -579,7 +577,7 @@ This view is designed to support in-depth evaluation of individual somatic varia
 
 The upper panel displays a summarized view of the genomic coordinate.
 
-**Displayed Fields
+**Displayed Fields**
 
 Field	Description
 Gene	HGNC gene symbol (clickable link to Gene page)
@@ -669,16 +667,16 @@ evidence_type	Evidence annotation
 
 ## 7.4 Download Behaviour Under Filtering
 
-**A. No Filter Applied
+**A. No Filter Applied**
 Exports the entire curated variant dataset.
 
-**B. Consequence Filter Applied
+**B. Consequence Filter Applied**
 Exports only variants matching the selected functional consequence.
 
-**C. Search Term Applied
+**C. Search Term Applied**
 Exports only records matching the search query (gene, disease, study, or coordinate).
 
-**D. Combined Search + Filter
+**D. Combined Search + Filter**
 Exports intersection of both conditions.
 
 ## 7.5 Practical example
@@ -687,7 +685,7 @@ Exports intersection of both conditions.
 
 *Figure 11. Download example.*
 
-**Example workflow:
+**Example workflow:**
 •	Navigate to variants page.
 •	Select “Frameshift” in consequence filter.
 •	Click “Download”.
