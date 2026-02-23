@@ -12,7 +12,6 @@ The pipeline is designed to ensure:
 
 This is a **literature-driven ingestion pipeline**, not a sequencing pipeline.
 
----
 
 ## Data Sources
 
@@ -23,7 +22,6 @@ Primary data sources include:
 
 The database does **not** ingest raw FASTQ/BAM/VCF files.
 
----
 
 ## Ingestion Stages
 
@@ -43,7 +41,6 @@ Typical extracted fields include:
 
 These files are **not committed** to version control if they are working drafts.
 
----
 
 ### Stage 2: Staging Tables
 
@@ -60,7 +57,6 @@ contain:
 
 No biological interpretation occurs at this stage.
 
----
 
 ### Stage 3: Normalization and Validation
 
@@ -78,7 +74,6 @@ Validation is performed via:
 - enum enforcement
 - consistency checks in SQL migrations
 
----
 
 ### Stage 4: Provenance Preservation
 
@@ -91,18 +86,16 @@ Every variant record retains:
 
 This ensures all database entries remain auditable back to the source.
 
----
 
 ## Reproducibility
 
 The entire ingestion process is reproducible by:
-1. applying schema migrations in order (`sql/migrations/`)
-2. loading seed files (`sql/seeds/`)
-3. regenerating analysis views
+-  applying schema migrations in order (`sql/migrations/`)
+-  loading seed files (`sql/seeds/`)
+-  regenerating analysis views
 
 No manual database edits are required after ingestion.
 
----
 
 ## What This Pipeline Does NOT Do
 
@@ -113,7 +106,6 @@ No manual database edits are required after ingestion.
 
 Those steps are explicitly out of scope.
 
----
 
 ## Related Documentation
 
