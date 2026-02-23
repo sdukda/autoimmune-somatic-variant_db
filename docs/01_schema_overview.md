@@ -14,7 +14,6 @@ The schema is designed to:
 The database is **not a raw sequencing store**.  
 It is a *curated literature knowledge base* focused on somatic variation.
 
----
 
 ## Design principles
 
@@ -36,8 +35,6 @@ The schema follows five core principles:
 5. **Reproducible evolution**  
    All schema changes are applied via versioned SQL migrations.
 
----
-
 ## Core tables
 
 ### `study`
@@ -48,15 +45,14 @@ Represents a published research study.
 - Linked to metadata (PMID, DOI, year) via `study_meta`
 
 Purpose:
-> Anchor all variants to their source publication.
+-  Anchor all variants to their source publication.
 
----
 
 ### `literature_driver_variants`
 The central curation table.
 
 Each row represents:
-> A *single somatic variant* reported in a study, in a specific disease and cell-type context.
+-  A *single somatic variant* reported in a study, in a specific disease and cell-type context.
 
 Key features:
 - stores **paper-reported genome build and coordinates**
@@ -65,7 +61,6 @@ Key features:
 
 This table intentionally retains some redundancy to preserve scientific context.
 
----
 
 ### `literature_variant_study`
 Associative table linking variants to studies.
@@ -73,8 +68,6 @@ Associative table linking variants to studies.
 Purpose:
 - allows a single variant to be referenced by multiple studies
 - supports cross-study aggregation and summaries
-
----
 
 ### Reference / lookup tables
 
@@ -87,7 +80,6 @@ The schema includes normalized lookup tables for:
 
 These ensure consistency across curated data while allowing controlled extension.
 
----
 
 ## Analysis-ready views
 
@@ -107,7 +99,6 @@ These views:
 
 Views are treated as *derived artifacts*, not primary data.
 
----
 
 ## Handling reference genomes
 
@@ -123,7 +114,6 @@ This avoids ambiguity and preserves traceability.
 
 No coordinate overwriting occurs.
 
----
 
 ## Migration strategy
 
@@ -143,7 +133,6 @@ Key properties:
 
 Archived or superseded migrations are retained for historical reference.
 
----
 
 ## Intended usage
 
@@ -155,7 +144,6 @@ This schema is designed to support:
 
 It is **not intended** to replace raw sequencing pipelines or variant callers.
 
----
 
 ## Related documentation
 
