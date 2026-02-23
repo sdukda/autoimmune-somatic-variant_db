@@ -18,61 +18,61 @@ The system follows a five-layer architecture model:
 
 **a. Data Source Layer**
 This layer comprises primary scientific inputs:
-```
-•	Peer-reviewed publications
-•	Supplementary variant tables
-•	Reported genomic coordinates
-•	Declared reference genome builds
-•	Author-reported driver interpretations
-```
+
+-	Peer-reviewed publications
+-	Supplementary variant tables
+-	Reported genomic coordinates
+-	Declared reference genome builds
+-	Author-reported driver interpretations
+
 This layer represents the authoritative source of curated knowledge.
 
 **b. Curation & Processing Layer**
 This layer transforms raw literature data into structured, validated datasets. It includes:
-```
-•	HGVS normalization and validation
-•	Reference genome verification (GRCh37 / GRCh38)
-•	Coordinate liftover between builds
-•	Driver classification (CH driver vs disease driver)
-•	Disease ontology mapping (DOID)
-•	Cell ontology mapping (CL)
-```
+
+-	HGVS normalization and validation
+-	Reference genome verification (GRCh37 / GRCh38)
+-	Coordinate liftover between builds
+-	Driver classification (CH driver vs disease driver)
+-	Disease ontology mapping (DOID)
+-	Cell ontology mapping (CL)
+
 A dedicated validation and quality control stage enforces:
-```
-•	Deduplication
-•	Referential integrity checks
-•	Foreign key resolution
-•	Natural key hashing
-•	Schema compliance
-```
+
+-	Deduplication
+-	Referential integrity checks
+-	Foreign key resolution
+-	Natural key hashing
+-	Schema compliance
+
 This layer ensures scientific and structural correctness prior to database ingestion.
 
 **c. Persistence Layer (Relational Database Layer)**
 The core relational database (autoimmune_db, MySQL) contains:
-```
-•	Normalized base tables (genes, variants, disease, study, reference_genome, cell_type, literature_driver_variants)
-•	Analytical SQL views (e.g., v_literature_variants_flat, v_literature_summary_by_gene)
-```
+
+-	Normalized base tables (genes, variants, disease, study, reference_genome, cell_type, literature_driver_variants)
+-	Analytical SQL views (e.g., v_literature_variants_flat, v_literature_summary_by_gene)
+
 The database design follows normalization principles to avoid redundancy while supporting analytical querying.
 
 **d. Application Layer**
 The PHP-based web application provides:
-```
-•	Gene-, disease-, study-, and coordinate-centric views
-•	Sorting and filtering functionality
-•	CSV export capabilities
-•	UCSC Genome Browser integration
-```
+
+-	Gene-, disease-, study-, and coordinate-centric views
+-	Sorting and filtering functionality
+-	CSV export capabilities
+-	UCSC Genome Browser integration
+
 Importantly, the application queries analytical SQL views rather than base tables, ensuring logical decoupling between schema design and presentation logic.
 
 **e. Reproducibility & Versioning Layer**
 Reproducibility is enforced through:
-```
-•	Git-based source control
-•	SQL migration files
-•	Curated seed data
-•	Tagged releases (e.g., v0.3-summary-enhancement)
-•	Schema evolution tracking
-```
+
+-	Git-based source control
+-	SQL migration files
+-	Curated seed data
+-	Tagged releases (e.g., v0.3-summary-enhancement)
+-	Schema evolution tracking
+
 This layer ensures the database can be reconstructed deterministically from source.
 
