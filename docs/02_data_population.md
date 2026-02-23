@@ -21,6 +21,7 @@ Used to map diseases ↔ cell types (and ontology IDs where available).
 
 ### 3) literature_variant_consequence_ucsc_v1.csv
 Path: `sql/seeds/literature_variant_consequence_ucsc_v1.csv`
+
 Used to backfill/normalize consequence categories for variants (UCSC-derived).
 
 ## Seed scripts (current set)
@@ -47,13 +48,13 @@ Consequence staging/backfills:
 - migrations 035–049 (staging table + backfill + enum + view updates)
 
 ## Reproducible local load (recommended order)
-1) Create database
-2) Apply base schema (001)
-3) Apply view/normalization migrations needed by UI
-4) Load core lookups (001_seed_core_lookups.sql)
-5) Load disease/cell_type/study metadata
-6) Load LDV CSV + mapping scripts
-7) Run consequence staging/backfills if needed
+-  Create database
+-  Apply base schema (001)
+-  Apply view/normalization migrations needed by UI
+-  Load core lookups (001_seed_core_lookups.sql)
+-  Load disease/cell_type/study metadata
+-  Load LDV CSV + mapping scripts
+-  Run consequence staging/backfills if needed
 
 ## Verification queries
 - How many curated rows exist?
