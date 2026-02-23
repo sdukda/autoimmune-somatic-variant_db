@@ -7,7 +7,8 @@ The validation process is designed to ensure:
 -	internal consistency of curated data
 -	traceability to original publications
 -	reproducibility of database construction
-	safe downstream querying and aggregation
+-	safe downstream querying and aggregation
+
 This is not experimental QC and not sequencing QC.
 It operates exclusively on curated, literature-derived data.
 
@@ -40,6 +41,7 @@ Validation is enforced using:
 -	NOT NULL constraints
 -	ENUM / controlled-value columns
 -	explicit data types
+
 This ensures structural correctness before any downstream logic is applied.
 
 ## 2. Controlled vocabulary normalization
@@ -56,17 +58,19 @@ Normalization is implemented using:
 -	staging tables
 -	backfill migrations
 -	deterministic update scripts
-Original literature values are preserved where relevant.
+-   Original literature values are preserved where relevant.
 
 ## 3. Genomic coordinate validation
 Each variant record may include:
 -	paper-reported genomic coordinates
 -	lifted coordinates (GRCh37 ↔ GRCh38)
+
 Validation checks include:
 -	chromosome naming consistency (chr1 vs 1)
 -	valid reference and alternate allele formats
 -	plausible genomic positions
 -	explicit tracking of reference genome source
+
 Lifted coordinates are stored separately and never overwrite
 paper-reported coordinates.
 
@@ -75,6 +79,7 @@ Variant consequences are validated using:
 -	controlled ENUM values
 -	explicit handling of noncoding variants
 -	explicit handling of unknown or ambiguous consequences
+
 This prevents silent misclassification and makes uncertainty visible
 to downstream users.
 
@@ -86,6 +91,7 @@ Validation ensures:
 -	no duplicate variant entries within the same study
 -	unique variant–study relationships
 -	consistent roll-up counts in summary views
+
 These checks are enforced via:
 -	composite keys
 -	integrity checks in migrations
@@ -96,7 +102,9 @@ All validation logic is implemented as:
 -	version-controlled SQL migrations
 -	seed files
 -	deterministic backfill scripts
+
 No manual edits are applied to production tables.
+
 The entire database can be rebuilt from scratch using:
 -	schema migrations
 -	seed data
@@ -106,6 +114,7 @@ The entire database can be rebuilt from scratch using:
 -	Validation depends on accuracy and completeness of published reports
 -	Some studies report incomplete coordinates or transcript context
 -	External annotation sources may evolve over time
+
 Such cases are handled explicitly using:
 -	Unknown / NA values
 -	curator notes and remarks
