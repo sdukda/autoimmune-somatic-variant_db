@@ -1,4 +1,4 @@
-## 06_reproducibility_guide.md (Unified Style Version)
+## 06_reproducibility_guide.md
 ## 1. Reproducibility Guide
 
 This section describes how to reconstruct the **Autoimmune Somatic Variant Database (autoimmune_db)** from source using version-controlled migrations and curated seed files.
