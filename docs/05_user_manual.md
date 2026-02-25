@@ -569,6 +569,9 @@ Coordinates displayed in the interface always correspond to the declared referen
 ## 6.3 Genome Build Toggle (GRCh37/GRCh38)
 The Variant page includes a genome build toggle allowing researchers to switch between **GRCh37 (hg19)** and **GRCh38 (hg38)** coordinate views.
 
+![Genome Build Page](./images/genome_build_toggle.png)
+*Figure 9. Genome build page.*
+
 **Behaviour**
 - The selected genome build determines:
     - The genomic coordinate displayed
@@ -650,7 +653,7 @@ Download button exports the currently filtered dataset in tabular format, suitab
 
 ![Variant Detail Page](./images/variant_02_evidence.png)
 
-*Figure 9. Variant detail page.*
+*Figure 10. Variant detail page.*
 
 The Variant Detail View (ID Mode) displays all curated evidence for a specific variant entry. The page includes:
 
@@ -717,7 +720,7 @@ Clicking the genomic coordinate, users may open the UCSC Genome Browser at the e
 
 ![Variant Data Download Functionality](images/variants_download_filtered_example.png)
 
-*Figure 10. Variant data download functionality.*
+*Figure 11. Variant data download functionality.*
 
 Variant page provides structured data export functionality to enable downstream computational analysis. This download feature allows users to extract curated somatic variant records in a machine-readable format. Unlike static display tables, the download function provides direct access to structured data suitable for:
 
@@ -782,7 +785,7 @@ Exports intersection of both conditions.
 
 ![Example Download](images/variants_download_csv_example.png)
 
-*Figure 11. Download example.*
+*Figure 12. Download example.*
 
 **Example workflow:**
 
