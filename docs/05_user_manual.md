@@ -566,7 +566,43 @@ The reference genome column explicitly indicates whether coordinates correspond 
 
 Coordinates displayed in the interface always correspond to the declared reference genome build to ensure consistency with external genomic resources (e.g., UCSC Genome Browser).
 
-## 6.3 Navigation Workflow
+## 6.3 Genome Build Toggle (GRCh37/GRCh38)
+The Variant page includes a genome build toggle allowing researchers to switch between **GRCh37 (hg19)** and **GRCh38 (hg38)** coordinate views.
+
+**Behaviour**
+- The selected genome build determines:
+    - The genomic coordinate displayed
+    - Whether the coordinates originates from:
+        - The paper-reported genome
+        - A lifted(converted) genome build
+    - The UCSC Genome Browser link target (hg19 or hg38)
+
+**Coordinate Source Labeling**
+Each genomic coordinate includes a provenance note:
+-	Paper (GRCh37) – Coordinate reported in the original publication.
+-	Lifted (GRCh37 → GRCh38) – Coordinate converted via liftover.
+-	N/A – Coordinate unavailable for the selected genome build.
+This ensures transparency regarding coordinate origin and prevents ambiguity in cross-build interpretation.
+
+## 6.4 Gene Search Precision
+The search function distinguishes between:
+-	Exact gene symbol queries (e.g., KMT2D)
+-	General keyword searches (e.g., disease names, study names, HGVS)
+Exact Gene Matching
+When the query matches the format of a gene symbol:
+-	The system performs a strict equality match on gene_symbol
+-	Results are filtered to ensure only the queried gene is returned
+-	Multi-gene fields (e.g., KMT2D;CARD11) are tokenized to ensure exact symbol matching
+
+This prevents cross-gene contamination in search results.
+
+Example:
+| Gene   | Description     |
+|--------|-----------------|
+| KMT2D  | KMT2D only      |
+| CARD11 | CARD11 only     |
+
+## 6.5 Navigation Workflow
 
 Clicking the Genomic variant link opens the Variant Detail Page, which provides:
 
@@ -579,7 +615,7 @@ Clicking the Genomic variant link opens the Variant Detail Page, which provides:
 
 Clicking the Gene symbol opens the Gene page for cross-study aggregation.
 
-## 6.4 Report and Study Counts
+## 6.6 Report and Study Counts
 
 The Reports column reflects:
 
@@ -594,7 +630,7 @@ These metrics allow rapid identification of:
 -	Cross-study drivers
 -	Potential hotspot mutations
 
-## 6.5 Integration with External Resources
+## 6.7 Integration with External Resources
 
 Clicking a variant:
 
@@ -602,7 +638,7 @@ Clicking a variant:
 -	From there, users can open the UCSC Genome Browser at the exact coordinate.
 -	Coordinates align with declared reference genome builds.
 
-## 6.6 Data Export
+## 6.8 Data Export
 
 Download button exports the currently filtered dataset in tabular format, suitable for:
 
@@ -610,7 +646,7 @@ Download button exports the currently filtered dataset in tabular format, suitab
 -	Downstream bioinformatics workflows
 -	Supplementary publication materials
 
-## 6.8 Variant Detail View (Coordinate Mode)
+## 6.9 Variant Detail View (Coordinate Mode)
 
 ![Variant Detail Page](./images/variant_02_evidence.png)
 
@@ -627,7 +663,7 @@ The Variant Detail View (ID Mode) displays all curated evidence for a specific v
 
 This view is designed to support in-depth evaluation of individual somatic variants.
 
-## 6.8.1 Variant Summary Section
+## 6.9.1 Variant Summary Section
 
 The upper panel displays a summarized view of the genomic coordinate.
 
@@ -644,7 +680,7 @@ The upper panel displays a summarized view of the genomic coordinate.
 * Studies	Number of distinct studies reporting the variant
 * Studies	Titles of publications reporting the mutation
 
-## 6.8.2 Coordinate Integrity and Genome Build
+## 6.9.2 Coordinate Integrity and Genome Build
 
 Coordinate displayed reflects the curated reference genome build. The system ensures:
 
@@ -652,7 +688,7 @@ Coordinate displayed reflects the curated reference genome build. The system ens
 -	Explicit declaration of GRCh37 or GRCh38
 -	Accurate alignment with external genomic tools
 
-## 6.8.3 Evidence Rows
+## 6.9.3 Evidence Rows
 
 The lower panel lists individual curated evidence entries. Each row corresponds to a distinct literature-derived record.
 
@@ -667,14 +703,14 @@ The lower panel lists individual curated evidence entries. Each row corresponds 
 | Cell type     | Affected cellular compartment |
 | Study         | Publication reporting the mutation |
 
-## 6.8.4 Cross-Navigation
+## 6.9.4 Cross-Navigation
 
 From this page, users may navigate to:
 -	Gene page (via gene link)
 -	Disease page (via disease link)
 -	Study page (via study title)
 
-## 6.8.5 UCSC Genome Browser Integration
+## 6.9.5 UCSC Genome Browser Integration
 Clicking the genomic coordinate, users may open the UCSC Genome Browser at the exact coordinate. 
 
 ## 7 Variant Data Download Functionality
