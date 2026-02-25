@@ -43,7 +43,7 @@ The following software is required:
 ## 4.  Repository Structure
 
 The repository is organised as follows:
-
+```
 autoimmune_db/
 ├── docs/
 ├── sql/
@@ -54,7 +54,7 @@ autoimmune_db/
 │   ├── public/
 │   └── config/
 └── README.md
-
+```
 
 Key points:
 
