@@ -1,8 +1,8 @@
-# 07_system_architecture.md
+## 07_system_architecture.md
 
-# 1 System Architecture
+## 1 System Architecture
 
-# 1.1 Overview
+## 1.1 Overview
 
 The Autoimmune Somatic Variant Portal is implemented as a layered research software architecture that separates data acquisition, curation, storage, and presentation components. Somatic variant information is first derived from peer-reviewed publications and associated supplementary data, including reported genomic coordinates, reference genome builds, and driver interpretations. These data undergo manual curation and normalization, including HGVS validation, reference genome verification, disease and cell ontology mapping (DOID and CL), driver classification, and coordinate liftover between GRCh37 and GRCh38 where required.
 
@@ -10,7 +10,7 @@ Following curation, a validation and quality control stage ensures deduplication
 
 Versioning and reproducibility are maintained through Git-based source control, SQL migration files, curated seed data, and tagged releases, allowing the database to be reconstructed from scratch. External knowledge integration is achieved via linkage to the UCSC Genome Browser, PubMed, and ontology resources (DOID and Cell Ontology), supporting interoperability and contextual validation.
 
-# 1.2 Layered Architectural Model
+## 1.2 Layered Architectural Model
 
 ![Architectural Model](./images/Autoimmune_Portal_Architecture_v0.3.png)
 
