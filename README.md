@@ -5,23 +5,23 @@
 
 
 The project combines:
-•	Published literature evidence
-•	Manually curated somatic variants
-•	Disease, gene, cell-type, and study context
-•	Harmonised variant consequence categories
-•	Reproducible schema migrations and seed data
+-	Published literature evidence
+-	Manually curated somatic variants
+-	Disease, gene, cell-type, and study context
+-	Harmonised variant consequence categories
+-	Reproducible schema migrations and seed data
 
 The database is intended to support research into autoimmune conditions, inflammatory disorders, and other related somatic disorder.
 
 **Project Goals**
 The primary objectives of this autoimmue database project are:
-1.	To provide a** structured, queryable schema** for somatic variants reported in published autoimmune disease literature
-2.	To ensure each variant is traceable to its study, disease, cell type and supporting evidence.
-3.	To standardize variant descriptions reported across publications
-4.	To facilitate exploration by gene, disease, variant and study via a lightweight web interface.
+-	To provide a** structured, queryable schema** for somatic variants reported in published autoimmune disease literature
+-	To ensure each variant is traceable to its study, disease, cell type and supporting evidence.
+-	To standardize variant descriptions reported across publications
+-	To facilitate exploration by gene, disease, variant and study via a lightweight web interface.
 
 **Repository Structure**
-
+```
 autoimmune_db/
 ├── sql/
 │   ├── migrations/        # Versioned schema and view definitions
@@ -40,21 +40,21 @@ autoimmune_db/
 ├── scripts/               # Utility scripts (e.g. variant parsing)
 ├── .gitignore
 └── README.md
-
+```
 **Database Design** 
 **Core entities**
 The schema centres on somatic variants, linked to:
-•	Genes
-•	Diseases (with Disease Ontology identifiers where available)
-•	Cell types (with ontology identifiers where available)
-•	Studies (PMID, DOI, year)
-•	Variant consequences / impact categories
+-	Genes
+-	Diseases (with Disease Ontology identifiers where available)
+-	Cell types (with ontology identifiers where available)
+-	Studies (PMID, DOI, year)
+-	Variant consequences / impact categories
 
 The design highlights:
-•	Consistent links between related records
-•	Transparent tracking of data sources
-•	Avoidance of duplicate data
-•	Clear distinction between reported and derived values
+-	Consistent links between related records
+-	Transparent tracking of data sources
+-	Avoidance of duplicate data
+-	Clear distinction between reported and derived values
 
 Entity-relationship diagrams are provided in:
 docs/erd/
@@ -63,69 +63,69 @@ docs/erd/
 All schema changes are tracked via **ordered SQL migrations** in:
 sql/migrations/
 Each migration is:
-•	Idempotent where possible
-•	Executed in numeric order
-•	Documented through commit history
+-	Idempotent where possible
+-	Executed in numeric order
+-	Documented through commit history
 This allows the database to be rebuilt from scratch in a reproducible manner.
 
 **Seed Data and Curation**
 Curated seed data is stored in:
 sql/seeds/
 This includes:
-•	Core lookup tables (genes, diseases, cell types)
-•	Study metadata
-•	Curated somatic variant tables
-•	CSV files derived from manual literature extraction
+-	Core lookup tables (genes, diseases, cell types)
+-	Study metadata
+-	Curated somatic variant tables
+-	CSV files derived from manual literature extraction
 
 Example curated file:
 literature_driver_variants_v1.csv
 
 These files represent **manual curation from published studies**, with explicit annotation of:
-•	Reference genome used in the paper
-•	Lifted coordinates where applicable
-•	Variant type and consequence
-•	Disease and cell-type context
-•	Evidence notes
+-	Reference genome used in the paper
+-	Lifted coordinates where applicable
+-	Variant type and consequence
+-	Disease and cell-type context
+-	Evidence notes
 
 **Web Interface**
 A lightweight PHP interface is provided to browse and query the database:
-•	Genes – variant, disease, and study counts per gene
-•	Diseases – disease-centric summaries and variant context
-•	Variants – sortable, filterable variant listings
-•	Studies – publication-level summaries
+-	Genes – variant, disease, and study counts per gene
+-	Diseases – disease-centric summaries and variant context
+-	Variants – sortable, filterable variant listings
+-	Studies – publication-level summaries
 
 The UI is intentionally simple and read-only, designed for:
-•	Exploration
-•	Verification
+-	Exploration
+-	Verification
 
 **Configuration and Security**
 Database credentials are never committed.
-•	ui/config/db.php
+-	ui/config/db.php
     → Safe template committed to GitHub
-•	ui/config/db.local.php
+-	ui/config/db.local.php
     → Local file containing real credentials (ignored by Git)
 
 This ensures:
-•	Reproducibility
-•	Security
-•	Safe sharing with collaborators
+-	Reproducibility
+-	Security
+-	Safe sharing with collaborators
 
 **Reproducibility**
 To recreate the database locally:
-1.	Create an empty MySQL database
-2.	Apply migrations in order from sql/migrations/
-3.	Load seed data from sql/seeds/
-4.	Configure db.local.php
-5.	Run the web UI locally (e.g. via Apache or PHP built-in server)
+-	Create an empty MySQL database
+-	Apply migrations in order from sql/migrations/
+-	Load seed data from sql/seeds/
+-	Configure db.local.php
+-	Run the web UI locally (e.g. via Apache or PHP built-in server)
 Exact deployment is intentionally left flexible, as this repository focuses on schema and data provenance, not production hosting.
 
 **Intended Use**
 This repository is intended for:
-•	Academic research
-•	Supervisor review
-•	Schema inspection
-•	Reproducibility assessment
-•	Future extension into larger variant knowledgebases
+-	Academic research
+-	Supervisor review
+-	Schema inspection
+-	Reproducibility assessment
+-	Future extension into larger variant knowledgebases
 It is not intended as a production clinical system.
 
 **Citation**
