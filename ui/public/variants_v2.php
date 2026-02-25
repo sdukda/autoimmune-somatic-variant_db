@@ -171,12 +171,24 @@ try {
     FROM v_literature_summary_by_variant_coords s
     WHERE 1=1
       AND (:consequence = '' OR COALESCE(s.consequence, 'Unknown') = :consequence)
+    AND (
+  :q = ''
+  OR (
+    (
+      UPPER(:q) REGEXP '^[A-Z0-9-]{2,20}$'
+      AND UPPER(TRIM(s.gene_symbol)) = UPPER(:q)
+    )
+    OR
+    (
+      NOT (UPPER(:q) REGEXP '^[A-Z0-9-]{2,20}$')
       AND (
-        :q = ''
-        OR s.gene_symbol LIKE :q_like
+        s.gene_symbol LIKE :q_like
         OR s.genomic_variant LIKE :q_like
         OR s.studies LIKE :q_like
       )
+    )
+  )
+)
     ORDER BY $orderBy
     LIMIT 2000
   ");

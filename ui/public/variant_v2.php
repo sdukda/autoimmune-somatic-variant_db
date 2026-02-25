@@ -36,6 +36,15 @@ function ucsc_url_from_genomic_variant(string $refGenome, string $genomicVariant
 $pageTitle = "Variant";
 require __DIR__ . "/partials/header.php";
 
+/* -------------------------------
+   Genome toggle UI (ADD HERE)
+-------------------------------- */
+// Genome view (user-selectable)
+$genome = strtoupper(trim($_GET['genome'] ?? 'GRCh38'));
+if (!in_array($genome, ['GRCH37','GRCH38'], true)) $genome = 'GRCH38';
+$genomeLabel = ($genome === 'GRCH37') ? 'GRCh37' : 'GRCh38';
+
+
 /*
   Modes:
    1) Detail by internal id:  /variant_v2.php?id=123
@@ -51,36 +60,67 @@ if (!function_exists("na")) {
     return h($v);
   }
 }
-if (!function_exists('genomic_variant_string')) {
-function genomic_variant_string(array $row): ?string {
-  // Prefer paper-reported coords; fall back to lifted coords
-$candidates = [
-  ['paper_chrom','paper_pos','paper_ref','paper_alt'],
-    ['lifted_chrom','lifted_pos','lifted_ref','lifted_alt'],
-];
-  foreach ($candidates as [$chrK,$posK,$refK,$altK]) {
-    $chr = $row[$chrK] ?? null;
-    $pos = $row[$posK] ?? null;
-    $ref = $row[$refK] ?? null;
-    $alt = $row[$altK] ?? null;
 
-    if ($chr && $pos && $ref && $alt) {
-      return "{$chr}:{$pos} {$ref}>{$alt}";
-    }
+  
+  if (!function_exists('pick_genomic_variant_for_genome')) {
+function pick_genomic_variant_for_genome(array $row, string $genome): array
+{
+  // Returns [variant_string|null, source_note, ucscGenomeLabel]
+  $genome = strtoupper(trim($genome));
+
+  $paperGenome  = strtoupper(trim((string)($row['paper_ref_genome'] ?? $row['paper_ref_genome_name'] ?? '')));
+$liftedGenome = strtoupper(trim((string)($row['lifted_ref_genome'] ?? $row['lifted_ref_genome_name'] ?? '')));
+
+// Normalize possible values (hg19/hg38 → GRCH37/GRCH38)
+if ($paperGenome === 'HG19') $paperGenome = 'GRCH37';
+if ($paperGenome === 'HG38') $paperGenome = 'GRCH38';
+if ($liftedGenome === 'HG19') $liftedGenome = 'GRCH37';
+if ($liftedGenome === 'HG38') $liftedGenome = 'GRCH38';
+  
+
+  $paperHas = !empty($row['paper_chrom']) && !empty($row['paper_pos']) &&
+              ($row['paper_ref'] ?? '') !== '' && ($row['paper_alt'] ?? '') !== '';
+  $liftedHas = !empty($row['lifted_chrom']) && !empty($row['lifted_pos']) &&
+               ($row['lifted_ref'] ?? '') !== '' && ($row['lifted_alt'] ?? '') !== '';
+
+  $paperVariant = $paperHas
+    ? trim($row['paper_chrom']) . ':' . trim($row['paper_pos']) . ' ' . trim($row['paper_ref']) . '>' . trim($row['paper_alt'])
+    : null;
+
+  $liftedVariant = $liftedHas
+    ? trim($row['lifted_chrom']) . ':' . trim($row['lifted_pos']) . ' ' . trim($row['lifted_ref']) . '>' . trim($row['lifted_alt'])
+    : null;
+
+  $selectedLabel = ($genome === 'GRCH37') ? 'GRCh37' : 'GRCh38';
+  $paperLabel = ($paperGenome === 'GRCH37') ? 'GRCh37' : (($paperGenome === 'GRCH38') ? 'GRCh38' : ($paperGenome ?: 'Unknown'));
+
+  // If paper coords already match selected genome, show paper coords
+  if ($paperGenome === $genome && $paperVariant) {
+    return [$paperVariant, 'Paper (' . $paperLabel . ')', $paperLabel];
   }
-  return null;
+
+  // Otherwise, if lifted coords match selected genome, show lifted coords
+  if ($liftedGenome === $genome && $liftedVariant) {
+    return [$liftedVariant, 'Lifted (' . $paperLabel . ' → ' . $selectedLabel . ')', $selectedLabel];
+  }
+
+  // No coords available in selected genome view
+  return [null, 'N/A for ' . $selectedLabel . ' (paper: ' . $paperLabel . ')', $selectedLabel];
 }
 }
 
 $id      = (int)($_GET["id"] ?? 0);
 $q       = trim((string)($_GET["q"] ?? ""));
 $variant = trim((string)($_GET["variant"] ?? ""));  // coordinate string like "chr2:25243931 G>A"
+$detail = null;
+$rows   = [];
+$vsum   = null;
+$evRows = [];
 
-$detail = null;          // detail row (id mode)
-$rows   = [];            // search rows (q mode)
-$vsum   = null;          // variant summary row (variant mode)
-$evRows = [];            // evidence rows (variant mode)
-
+// Genome view (user-selectable)
+$genome = strtoupper(trim($_GET['genome'] ?? 'GRCh38'));
+if (!in_array($genome, ['GRCH37','GRCH38'], true)) $genome = 'GRCH38';
+$genomeLabel = ($genome === 'GRCH37') ? 'GRCh37' : 'GRCh38';
 // -------------------------
 // 1) DETAIL MODE: ?id=123
 // -------------------------
@@ -122,6 +162,8 @@ if ($id === 0 && $variant !== "") {
     $vsum = $stmt->fetch() ?: null;
 
     // Evidence rows: pull all matching records from the flat view
+    
+    // Evidence rows: pull all matching records from the flat view
     $stmt = $pdo->prepare("
       SELECT
         literature_variant_id,
@@ -149,7 +191,26 @@ if ($id === 0 && $variant !== "") {
     ");
     $stmt->execute([":v" => $variant]);
     $evRows = $stmt->fetchAll();
+// -----------------------------
+// Coordinate mode: pick display coordinate based on toggle
+// -----------------------------
+$coordGv = null;
+$coordGvNote = null;
+$coordUcscGenome = null;
+$coordUcscUrl = null;
 
+if (!empty($evRows)) {
+  [$coordGv, $coordGvNote, $coordUcscGenome] = pick_genomic_variant_for_genome($evRows[0], $genome);
+  $coordUcscUrl = ($coordGv)
+    ? ucsc_url_from_genomic_variant($coordUcscGenome, $coordGv)
+    : null;
+
+  // Keep the summary consistent with the toggle view
+  if ($vsum) {
+    $vsum["ref_genome"] = $genomeLabel;     // show current genome view
+    $vsum["genomic_variant"] = $coordGv;    // show selected coord
+  }
+}
     // FIX: derive Gene + Reference genome from evidence rows,
     // choosing paper vs lifted based on what the user clicked (the :v string).
     $coordGene = $vsum["gene_symbol"] ?? null;
@@ -200,40 +261,77 @@ if ($id === 0 && $variant !== "") {
     $evRows = [];
   }
 }
-
-//-----------------------
+// -----------------------
 // 3) SEARCH MODE: ?q=...
-// ---------------------------
-
+// -----------------------
 if ($id === 0 && $variant === "" && $q !== "") {
   try {
-    $stmt = $pdo->prepare("
-      SELECT
-        literature_variant_id,
-        study_id, study_name_short,
-        gene_symbol,
-        cDNA_HGVS,
-        protein_change,
-        variant_type,
-        consequence,
-        is_driver,
-        disease_id, disease_name,
-        cell_type_name,
-        lifted_ref_genome, lifted_chrom, lifted_pos, lifted_ref, lifted_alt,
-        paper_ref_genome, paper_chrom, paper_pos, paper_ref, paper_alt
-      FROM v_literature_variants_flat
-      WHERE gene_symbol LIKE :q
-         OR disease_name LIKE :q
-         OR study_name_short LIKE :q
-         OR cDNA_HGVS LIKE :q
-         OR protein_change LIKE :q
-         OR CONCAT(lifted_chrom, ':', lifted_pos) LIKE :q
-         OR CONCAT(paper_chrom, ':', paper_pos) LIKE :q
-      ORDER BY gene_symbol, literature_variant_id
-      LIMIT 200
-    ");
-    $stmt->execute([":q" => "%" . $q . "%"]);
-    $rows = $stmt->fetchAll();
+    $q_raw   = trim((string)$q);
+    $q_upper = strtoupper($q_raw);
+
+    // Treat pure gene symbols as "exact gene mode"
+    $is_gene_query = (bool)preg_match('/^[A-Z0-9-]{2,20}$/', $q_upper);
+
+    if ($is_gene_query) {
+      // EXACT GENE SEARCH ONLY (no broad fallback)
+      $stmt = $pdo->prepare("
+        SELECT
+          literature_variant_id,
+          study_id, study_name_short,
+          gene_symbol,
+          cDNA_HGVS,
+          protein_change,
+          variant_type,
+          consequence,
+          is_driver,
+          disease_id, disease_name,
+          cell_type_name,
+          lifted_ref_genome, lifted_chrom, lifted_pos, lifted_ref, lifted_alt,
+          paper_ref_genome, paper_chrom, paper_pos, paper_ref, paper_alt
+        FROM v_literature_variants_flat
+        WHERE UPPER(TRIM(gene_symbol)) = :g
+        ORDER BY literature_variant_id
+        LIMIT 200
+      ");
+      $stmt->execute([":g" => $q_upper]);
+      $rows = $stmt->fetchAll();
+
+      // FINAL SAFETY: keep only exact gene rows (in case view has weird spacing)
+      $rows = array_values(array_filter($rows, function ($r) use ($q_upper) {
+        return strtoupper(trim((string)($r["gene_symbol"] ?? ""))) === $q_upper;
+      }));
+
+    } else {
+      // NORMAL BROAD SEARCH for non-gene queries
+      $stmt = $pdo->prepare("
+        SELECT
+          literature_variant_id,
+          study_id, study_name_short,
+          gene_symbol,
+          cDNA_HGVS,
+          protein_change,
+          variant_type,
+          consequence,
+          is_driver,
+          disease_id, disease_name,
+          cell_type_name,
+          lifted_ref_genome, lifted_chrom, lifted_pos, lifted_ref, lifted_alt,
+          paper_ref_genome, paper_chrom, paper_pos, paper_ref, paper_alt
+           FROM v_literature_variants_flat
+        WHERE gene_symbol LIKE :q
+           OR disease_name LIKE :q
+           OR study_name_short LIKE :q
+           OR cDNA_HGVS LIKE :q
+           OR protein_change LIKE :q
+           OR CONCAT(lifted_chrom, ':', lifted_pos) LIKE :q
+           OR CONCAT(paper_chrom, ':', paper_pos) LIKE :q
+        ORDER BY gene_symbol, literature_variant_id
+        LIMIT 200
+      ");
+      $stmt->execute([":q" => "%" . $q_raw . "%"]);
+      $rows = $stmt->fetchAll();
+    }
+
   } catch (Throwable $e) {
     $rows = [];
   }
@@ -242,7 +340,37 @@ if ($id === 0 && $variant === "" && $q !== "") {
 
 <div class="card">
   <h2>Variant</h2>
+ <!-- Genome Toggle -->
 
+<?php
+// Preserve current query params and only change genome
+$qs37 = $_GET;
+$qs38 = $_GET;
+
+unset($qs37['genome'], $qs38['genome']);
+$qs37['genome'] = 'GRCh37';
+$qs38['genome'] = 'GRCh38';
+
+$url37 = '/variant_v2.php?' . http_build_query($qs37);
+$url38 = '/variant_v2.php?' . http_build_query($qs38);
+?>
+<div class="toolbar" style="margin: 10px 0 14px;">
+  <span style="margin-right:10px;"><strong>Genome view:</strong></span>
+
+  <a class="btn" href="<?= h($url37) ?>"
+     style="<?= ($genome==='GRCH37') ? 'font-weight:700; outline:2px solid #000;' : '' ?>">
+    GRCh37
+  </a>
+
+  <a class="btn" href="<?= h($url38) ?>"
+     style="<?= ($genome==='GRCH38') ? 'font-weight:700; outline:2px solid #000;' : '' ?>">
+    GRCh38
+  </a>
+
+  <span class="small" style="margin-left:10px; opacity:0.8;">
+    (current: <?= h($genomeLabel) ?>)
+  </span>
+</div>
   <p class="small">
     Researchers can arrive here in three ways:
     by clicking a variant from Gene/Disease/Study (ID mode),
@@ -312,31 +440,38 @@ if ($id === 0 && $variant === "" && $q !== "") {
               </a>
             </td>
           </tr>
-          <tr><th>Reference genome</th><td><?= na($coordRefGenome ?? ($vsum["ref_genome"] ?? null)) ?></td></tr>
+          <tr><th>Reference genome</th><td><?= h($genomeLabel) ?></td></tr>
 
 <tr>
   <th>Genomic variant</th>
-          <td class="small">
+<td class="small">
   <?php
-    $gv   = (string)($vsum["genomic_variant"] ?? "");
-    $ucsc = ucsc_url_from_genomic_variant(
-      (string)($coordRefGenome ?? ($vsum["ref_genome"] ?? "")),
-      $gv
-    );
+    // Use toggle-selected coordinate from evidence rows (first row is enough for display)
+    $coordGv = null;
+    $coordGvNote = null;
+    $coordUcscGenome = null;
+
+    if (!empty($evRows)) {
+      [$coordGv, $coordGvNote, $coordUcscGenome] = pick_genomic_variant_for_genome($evRows[0], $genome);
+    }
+
+     $coordUcscUrl = (!empty($coordGv))
+      ? ucsc_url_from_genomic_variant($coordUcscGenome, $coordGv)
+      : null;
   ?>
 
-  <?php if ($gv !== "" && $ucsc): ?>
-    <a href="<?= h($ucsc) ?>"
+  <?php if (!empty($coordGv) && $coordUcscUrl): ?>
+    <a href="<?= h($coordUcscUrl) ?>"
        target="_blank"
        rel="noopener noreferrer"
        title="Open this coordinate in UCSC Genome Browser">
-      <?= h($gv) ?>
+      <?= h($coordGv) ?>
     </a>
+    <div class="small" style="opacity:0.8;"><?= h($coordGvNote) ?></div>
   <?php else: ?>
-    <?= h($gv) ?: "NA" ?>
+    <?= h($variant) ?: "NA" ?>
   <?php endif; ?>
 </td>
-
           <tr>
             <th>Consequence</th>
             <td title="Detail: <?= h($coord_detail ?? "NA") ?>"><?= na($coord_consequence ?? null) ?></td>
@@ -360,6 +495,7 @@ if ($id === 0 && $variant === "" && $q !== "") {
             <tr>
               <th>cDNA (HGVS)</th>
               <th>Protein</th>
+              <th>Genomic variant (<?= h($genomeLabel) ?>)</th>
               <th title="Mutation class derived from REF/ALT length (SNV / Insertion / Deletion / Indel)">
   Variant type
 </th>
@@ -388,13 +524,29 @@ if ($id === 0 && $variant === "" && $q !== "") {
                   <?php endif; ?>
                 </td>
 
-            <td class="small"><?= na(genomic_variant_string($r) ?? ($r["protein_change"] ?? null)) ?></td>
-                <td><?= na($r["variant_type"] ?? null) ?></td>
+<?php [$gv, $gvNote, $ucscGenome] = pick_genomic_variant_for_genome($r, $genome); ?>
+
+<!-- Protein column -->
+<td><?= na($r["protein_change"] ?? null) ?></td>
+
+<!-- Genomic variant column -->
+<td class="small">
+  <?php if ($gv): ?>
+    <a target="_blank"
+       href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=<?= h($ucscGenome === 'GRCh37' ? 'hg19' : 'hg38') ?>&position=<?= urlencode(str_replace(' ', '', $gv)) ?>">
+       <?= na($gv) ?>
+    </a>
+  <?php else: ?>
+    <?= na($r["protein_change"] ?? null) ?>
+  <?php endif; ?>
+  <div class="small" style="opacity:0.8;"><?= h($gvNote) ?></div>
+</td>
+
+<td><?= na($r["variant_type"] ?? null) ?></td>
 
                 <td title="Detail: <?= h($r["consequence_detail"] ?? "NA") ?>">
                   <?= na($r["consequence"] ?? null) ?>
                 </td>
-
 
                 <td>
                   <?php if (!empty($r["disease_id"])): ?>
@@ -449,7 +601,15 @@ if ($id === 0 && $variant === "" && $q !== "") {
             </td>
           </tr>
 
-          <tr><th>Genomic variant</th><td><?= na(genomic_variant_string($detail) ?? ($detail["protein_change"] ?? null)) ?></td></tr>
+          <?php [$gv, $gvNote, $ucscGenome] = pick_genomic_variant_for_genome($detail, $genome); ?>
+<tr>
+  <th>Genomic variant (<?= h($genomeLabel) ?>)</th>
+  <td>
+    <?= na($gv ?? ($detail["protein_change"] ?? null)) ?>
+    <div class="small" style="margin-top:4px; opacity:0.8;"><?= h($gvNote) ?></div>
+  </td>
+</tr>
+
           <tr><th>cDNA</th><td><?= na($detail["cDNA_HGVS"] ?? null) ?></td></tr>
 
           <tr><th>Variant type</th><td><?= na($detail["variant_type"] ?? null) ?></td></tr>
@@ -520,33 +680,9 @@ if ($id === 0 && $variant === "" && $q !== "") {
             </div>
           </div>
         </div>
+<?php endif; // end if (!$detail) ?>
+<?php endif; // end if ($id > 0) ?>
 
-        <div class="card">
-          <h4>Notes / remarks</h4>
-          <p><b>Evidence:</b> <?= na($detail["evidence_type"] ?? null) ?></p>
-          <p><b>Notes:</b> <?= nl2br(h((string)($detail["notes"] ?? ""))) ?></p>
-          <p><b>Remarks:</b> <?= nl2br(h((string)($detail["Remarks"] ?? ""))) ?></p>
-        </div>
-      <?php endif; ?>
-    </div>
-  <?php endif; ?>
-
-  <!-- ================= -->
-  <!-- SEARCH MODE VIEW  -->
-  <!-- ================= -->
-<?php if ($id === 0 && $variant === ""): ?>
-  <div class="card">
-    <h3>Results</h3>
-
-    <?php if ($q === ""): ?>
-      <p class="small">Enter a search term to find variants (this page does not list all variants by default).</p>
-
-    <?php else: ?>
-
-      <?php if (count($rows) === 0): ?>
-        <p class="small">No results found.</p>
-
-      <?php else: ?>
         <table>
           <tr>
             <th>Variant ID</th>
@@ -574,7 +710,11 @@ if ($id === 0 && $variant === "" && $q !== "") {
                 </a>
               </td>
 
-              <td><?= na(genomic_variant_string($r) ?? ($r["protein_change"] ?? null)) ?></td>
+              <?php [$gv, $gvNote, $ucscGenome] = pick_genomic_variant_for_genome($r, $genome); ?>
+<td>
+  <?= na($gv ?? ($r["protein_change"] ?? null)) ?>
+  <div class="small" style="opacity:0.8;"><?= h($gvNote) ?></div>
+</td>
               <td><?= na($r["cDNA_HGVS"] ?? null) ?></td>
 
               <td>
@@ -603,9 +743,7 @@ if ($id === 0 && $variant === "" && $q !== "") {
             </tr>
           <?php endforeach; ?>
         </table>
-      <?php endif; ?>
-
-    <?php endif; ?>
   </div>
-<?php endif; ?>
+
 <?php require __DIR__ . "/partials/footer.php"; ?>
+
