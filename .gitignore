@@ -18,3 +18,7 @@ ui/config/db.local.php
 local_work/
 
 # Docs images temp
+
+# Temporary / local data files
+sql/migrations/view_file.txt
+sql/seeds/*.csv
