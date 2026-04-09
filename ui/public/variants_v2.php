@@ -278,7 +278,8 @@ require __DIR__ . "/partials/header.php";
     <?php if (!$rows): ?>
       <p class="small">No variants found.</p>
     <?php else: ?>
-      <table class="browse-variants-table">
+<div class="table-wrap">
+<table class="browse-variants-table">
         <tr>
           <th class="col-gene"><?= variants_sort_link('Gene','gene_symbol',$q,$consequenceFilter,$sort,$dir) ?></th>
           <th><?= variants_sort_link('Reference genome','ref_genome',$q,$consequenceFilter,$sort,$dir) ?></th>
@@ -331,6 +332,7 @@ require __DIR__ . "/partials/header.php";
           </tr>
         <?php endforeach; ?>
       </table>
+      </div>
     <?php endif; ?>
   </div>
 </div>

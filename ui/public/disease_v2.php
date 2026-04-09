@@ -259,7 +259,7 @@ require __DIR__ . "/partials/header.php";
     <div style="margin-top:16px;">
       <h3><?= h($disease["disease_name"]) ?></h3>
 
-      <table>
+      <table class="disease-summary-table">
         <tr>
           <th style="width:180px;">Category</th>
           <td><?= h($disease["category"] ?? "") ?></td>
@@ -291,7 +291,7 @@ require __DIR__ . "/partials/header.php";
               <div class="small">No rows yet (check your view / mappings).</div>
             <?php else: ?>
               <div class="table-wrap">
-                <table>
+                <table class="disease-mini-table">
                   <tr>
                     <th>Cell type</th>
                     <th class="small">CL ID</th>
@@ -323,7 +323,8 @@ require __DIR__ . "/partials/header.php";
             <?php if (!$topGenes): ?>
               <div class="small">No rows yet.</div>
             <?php else: ?>
-              <table>
+              <div class="table-wrap">
+              <table class="disease-mini-table">
                 <tr>
                   <th>Gene</th>
                   <th>Variants</th>
@@ -351,7 +352,9 @@ require __DIR__ . "/partials/header.php";
         <?php if (!$variants): ?>
           <div class="small">No variants found for this disease.</div>
         <?php else: ?>
-          <table>
+        
+        <div class="table-wrap">
+          <table class="browse-variants-table disease-variants-preview">
             <tr>
               <th>Variant ID</th>
               <th>Study</th>
@@ -389,6 +392,7 @@ require __DIR__ . "/partials/header.php";
               </tr>
             <?php endforeach; ?>
           </table>
+          </div>
         <?php endif; ?>
       </div>
     </div>
@@ -398,7 +402,7 @@ require __DIR__ . "/partials/header.php";
 
 <div style="margin-top:24px;">
     <h3>Browse all diseases</h3>
-
+<div class="table-wrap">
     <table class="browse-disease-table">
       <tr>
         <th><?= diseases_sort_link('Disease', 'disease_name', $q, $id, $sort, $dir) ?></th>

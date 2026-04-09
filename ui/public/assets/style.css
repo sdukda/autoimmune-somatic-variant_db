@@ -5,7 +5,12 @@ body { margin:0; font-family: system-ui, -apple-system, Arial, sans-serif; color
 a { color:#0b57d0; text-decoration:none; }
 a:hover { text-decoration:underline; }
 
-.container { max-width: 1100px; margin: 0 auto; padding: 16px; }
+.container { width: 100%;
+            max-width: none;
+            margin: 0 auto; 
+            padding: 0 24px;
+            box-sizing: border-box;
+            }
 .site-header { border-bottom: 1px solid var(--border); background:#fafafa; }
 .brand-title { font-weight: 700; font-size: 20px; }
 .brand-subtitle { color: var(--muted); font-size: 13px; margin-top: 2px; }
@@ -13,10 +18,10 @@ a:hover { text-decoration:underline; }
 .nav { margin-top: 12px; display:flex; gap:14px; flex-wrap:wrap; }
 .nav a { padding:6px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; }
 
-.site-footer { border-top: 1px solid var(--border); margin-top: 28px; padding: 14px 0; color: var(--muted); background:#fafafa; }
+.site-footer { border-top: 1px solid var(--border); margin-top: 28px; padding: 14px 0; color: var(--muted); background:#f9fafb; }
 
-.card { border:1px solid var(--border); border-radius:12px; padding:16px; margin: 16px 0; }
-.grid { display:grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+
+.grid { display:grid; grid-template-columns: repeat(12, 1fr); gap: 36px; }
 .col-6 { grid-column: span 6; }
 .col-12 { grid-column: span 12; }
 @media (max-width: 900px){ .col-6 { grid-column: span 12; } }
@@ -30,7 +35,11 @@ button{
  button:hover{ opacity:0.9; }
 
 table { border-collapse: collapse; width:100%; }
-th, td { border:2px solid solid #888var(--border); padding: 8px 10px; text-align:left; }
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+}
  th { background:#f5f5f5; }
 .small { color: var(--muted); font-size: 13px; }
 
@@ -105,9 +114,6 @@ a{ color: var(--link); text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
 .small{ color: var(--muted); font-size: 13px; }
-
-/* Container + header layout */
-.container{ max-width: 1100px; margin: 0 auto; padding: 16px; }
 
 .site-header{
   border-bottom: 1px solid var(--border);
@@ -213,11 +219,6 @@ height: 34px;
   border-top: 2px solid var(--border-strong, #c0cad8);
   margin: 14px 0;
 }
-/* Grid (already used in Study page) */
-.grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
-.col-6{ grid-column: span 6; }
-.col-12{ grid-column: span 12; }
-@media (max-width: 900px){ .col-6{ grid-column: span 12; } }
 
 /* Inputs */
 input[type="text"], select{
@@ -422,12 +423,6 @@ th a:hover { text-decoration: underline; }
 .sort-arrow.inactive { opacity: 0.35; }
 .sort-arrow.active   { opacity: 1; font-weight: 700; }
 
-/* Quick stats: show grid lines in both columns and make them more distinct */
-.quick-stats-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
 .quick-stats-table th,
 .quick-stats-table td {
   border: 1px solid #94a3b8;   /* more distinct than default */
@@ -613,28 +608,28 @@ th a:hover { text-decoration: underline; }
 }
 
 /* --- Variants browse table: force closed grid including right edge --- */
-.browse-variants-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1.5px solid #94a3b8;  /* outer frame */
-}
 
-.browse-variants-table th,
-.browse-variants-table td {
-  border: 1px solid #cbd5e1;    /* inner grid */
-  padding: 10px 12px;
-  vertical-align: middle;
-}
+  
+  
+  
 
-/* Force last column right edge to show */
-.browse-variants-table th:last-child,
-.browse-variants-table td:last-child {
-  border-right: 1px solid #cbd5e1 !important;
-}
-.browse-variants-table td {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
+
+
+
+  
+  
+  
+
+
+
+
+
+  
+
+
+  
+  
+
 /* Force sharp corners for browse tables */
 .browse-diseases-table,
 .browse-diseases-table * {
@@ -797,32 +792,49 @@ th a:hover { text-decoration: underline; }
 }
 
 /* Force grid lines for Browse all variants table */
-.browse-variants-table th,
-.browse-variants-table td {
-  border: 1px solid var(--border) !important;
-}
 
-.browse-variants-table th {
-  background: #f5f5f5 !important;
-}
+
+  
+
+
+
+ 
+
 
 /* === Variants browse table: force borders like Gene/Disease === */
 table.browse-variants-table {
   border-collapse: collapse !important;
   width: 100% !important;
 }
+table.browse-variants-table th {
+  border: 1px solid var(--border) !important;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+  background: #f5f5f5 !important;
+  font-weight: 600;
+}
 
-table.browse-variants-table th,
 table.browse-variants-table td {
   border: 1px solid var(--border) !important;
   padding: 8px 10px;
   text-align: left;
   vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
-table.browse-variants-table th {
-  background: #f5f5f5;
-}
+  
+  
+  
+  
+  
+  
+
+
+
+  
+
 /* === FORCE NAV BUTTON COLOR === */
 .nav a {
   background: #64748b64748b64748b64748b64748b64748b !important;
@@ -1034,48 +1046,72 @@ CSS (add to style.css)
 .ncbi-search{
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
   margin-top: 10px;
+  flex-wrap: wrap;
 }
 
 .ncbi-search__select{
-  height: 40px;
-  padding: 0 10px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  background: #fff;
-  min-width: 120px;
-}
-.ncbi-search__input{
-  flex: 1;
-  height: 40px;
+  height: 42px;
+  min-width: 140px;
   padding: 0 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
   background: #fff;
-  min-width: 240px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.ncbi-search__input{
+  flex: 1 1 260px;
+  min-width: 220px;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  font-size: 14px;
   outline: none;
 }
 
+.ncbi-search__input:focus,
+.ncbi-search__select:focus{
+  border-color: var(--link);
+  box-shadow: 0 0 0 3px rgba(29,78,216,0.12);
+}
+
 .ncbi-search__btn{
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 8px;
-  border: 1px solid #374151;
-  background: #4b5563;
-  color: #fff;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-text);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .ncbi-search__btn:hover{
-  background: #111827;
-  border-color: #111827;
-
-
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border);
 }
+
+@media (max-width: 720px){
+  .ncbi-search{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ncbi-search__select,
+  .ncbi-search__input,
+  .ncbi-search__btn{
+    width: 100%;
+  }
+}
+  
 /* =========================
    FILTER GRID LAYOUT
 ========================= */
@@ -1409,8 +1445,227 @@ button:disabled{
   margin: 24px auto;
 }
 .home-hero{
-  background: var(--panel);
+ width: 100%;
+ background: var(--panel);
   border-radius: 16px;
   padding: 24px;
-  margin: 24px auto;
+  margin: 24px 0;
+}
+
+.home-hero h2 {
+  margin-bottom: 8px;
+}
+
+.home-hero p {
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.quick-stats-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.quick-stats-table th,
+.quick-stats-table td {
+  padding: 12px 10px;
+  text-align: left;
+}
+
+.quick-stats-table th {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.quick-stats-table td {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.quick-stats-table tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.quick-stats-table tr:last-child {
+  border-bottom: none;
+}
+
+.quick-stats-table tr:hover {
+  background: var(--row-hover);
+}
+.quick-stats-table td a {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* === Variant detail page polish === */
+
+.variant-main {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--link);
+}
+
+.variant-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.variant-summary-table th,
+.variant-summary-table td {
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.variant-summary-table th {
+  width: 220px;
+  background: #f8fafc;
+  font-weight: 600;
+  color: #374151;
+}
+
+.variant-summary-table td {
+  background: #fff;
+}
+
+.evidence-table td:nth-child(3),
+.evidence-table th:nth-child(3) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.evidence-table tbody tr:hover td {
+  background: #f8fbff;
+}
+
+/* === Gene page polish === */
+
+.gene-results-table td:first-child,
+.gene-results-table th:first-child {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.gene-results-table td:nth-child(2),
+.gene-results-table th:nth-child(2) {
+  white-space: nowrap;
+}
+
+.gene-results-table tbody tr:hover td,
+.browse-genes-table tbody tr:hover td {
+  background: #f8fbff;
+}
+
+.browse-genes-table td:first-child a {
+  font-weight: 700;
+}
+
+.gene-section h3 {
+  margin-bottom: 12px;
+}
+
+/* === Disease page polish === */
+
+.disease-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.disease-summary-table th,
+.disease-summary-table td {
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.disease-summary-table th {
+  width: 220px;
+  background: #f8fafc;
+  font-weight: 600;
+  color: #374151;
+}
+
+.disease-summary-table td {
+  background: #fff;
+}
+
+.disease-mini-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.disease-mini-table th,
+.disease-mini-table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.disease-mini-table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.disease-mini-table tbody tr:hover td,
+.disease-variants-preview tbody tr:hover td,
+.browse-disease-table tbody tr:hover td {
+  background: #f8fbff;
+}
+
+/* === Study page polish === */
+
+.study-mini-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.study-mini-table th,
+.study-mini-table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.study-mini-table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.study-mini-table tbody tr:hover td,
+.study-variants-table tbody tr:hover td,
+.browse-studies-table tbody tr:hover td {
+  background: #f8fbff;
+}
+
+.study-variants-table td:nth-child(1),
+.study-variants-table th:nth-child(1) {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.study-variants-table td:nth-child(2),
+.study-variants-table th:nth-child(2) {
+  white-space: nowrap;
+}
+
+.study-variants-table td:nth-child(3),
+.study-variants-table th:nth-child(3) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }

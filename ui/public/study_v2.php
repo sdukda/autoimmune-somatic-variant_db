@@ -296,7 +296,8 @@ require __DIR__ . "/partials/header.php";
             <?php if (!$diseaseSummary): ?>
               <div class="small">No linked variants found for this study.</div>
             <?php else: ?>
-              <table>
+<div class="table-wrap">
+<table class="study-mini-table">
                 <tr>
                   <th>Disease</th>
                   <th>Category</th>
@@ -312,6 +313,7 @@ require __DIR__ . "/partials/header.php";
                   </tr>
                 <?php endforeach; ?>
               </table>
+              </div>
             <?php endif; ?>
           </div>
         </div>
@@ -322,7 +324,8 @@ require __DIR__ . "/partials/header.php";
             <?php if (!$geneSummary): ?>
               <div class="small">No linked variants found for this study.</div>
             <?php else: ?>
-              <table>
+              <div class=table-wrap">
+              <table class="study-mini-table">
                 <tr><th>Gene</th><th>Variants</th></tr>
                 <?php foreach ($geneSummary as $g): ?>
                   <tr>
@@ -331,6 +334,7 @@ require __DIR__ . "/partials/header.php";
                   </tr>
                 <?php endforeach; ?>
               </table>
+              </div>
             <?php endif; ?>
           </div>
         </div>
@@ -343,7 +347,8 @@ require __DIR__ . "/partials/header.php";
           <div class="small">No variants found.</div>
         <?php else: ?>
           <div class="table-wrap">
-            <table>
+            <div class="table-wrap">
+            <table class="browse-variants-table study-variants-table">
               <tr>
                 <th>Variant ID</th>
                 <th>Gene</th>
@@ -378,6 +383,7 @@ require __DIR__ . "/partials/header.php";
 
   <div style="margin-top:24px;">
     <h3>Browse all studies</h3>
+    <div class="table-wrap">
     <table class="browse-studies-table">
       <tr>
         <th><?= studies_sort_link('Study', 'study_name', $q, $sort, $dir) ?></th>

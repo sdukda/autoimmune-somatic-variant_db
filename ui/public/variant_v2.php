@@ -431,7 +431,7 @@ $url38 = '/variant_v2.php?' . http_build_query($qs38);
           }
         ?>
 
-        <table>
+        <table class="variant-summary-table">
           <tr>
             <th>Gene</th>
             <td>
@@ -444,7 +444,7 @@ $url38 = '/variant_v2.php?' . http_build_query($qs38);
 
 <tr>
   <th>Genomic variant</th>
-<td class="small">
+<td>
   <?php
     // Use toggle-selected coordinate from evidence rows (first row is enough for display)
     $coordGv = null;
@@ -469,7 +469,7 @@ $url38 = '/variant_v2.php?' . http_build_query($qs38);
     </a>
     <div class="small" style="opacity:0.8;"><?= h($coordGvNote) ?></div>
   <?php else: ?>
-    <?= h($variant) ?: "NA" ?>
+    <span class="variant-main"><?= h($variant) ?: "NA" ?></span>
   <?php endif; ?>
 </td>
           <tr>
@@ -491,7 +491,7 @@ $url38 = '/variant_v2.php?' . http_build_query($qs38);
         <?php else: ?>
           <div class="small">Showing <?= count($evRows) ?> rows (limit 2000).</div>
 
-          <table>
+          <table class="browse-variants-table evidence-table">
             <tr>
               <th>cDNA (HGVS)</th>
               <th>Protein</th>
@@ -683,66 +683,69 @@ $url38 = '/variant_v2.php?' . http_build_query($qs38);
 <?php endif; // end if (!$detail) ?>
 <?php endif; // end if ($id > 0) ?>
 
-        <table>
-          <tr>
-            <th>Variant ID</th>
-            <th>Gene</th>
-            <th>Genomic variant</th>
-            <th>cDNA</th>
-            <th>Disease</th>
-            <th>Study</th>
-            <th title="Variant type = mutation class (SNV / Insertion / Deletion / Indel / MNV)">Variant type</th>
-            <th title="Consequence = functional effect on protein (Missense / Nonsense / Frameshift / etc.)">Consequence</th>
-            <th>Driver</th>
-          </tr>
+<?php if (!empty($rows)): ?>
+  <table>
+    <tr>
+      <th>Variant ID</th>
+      <th>Gene</th>
+      <th>Genomic variant</th>
+      <th>cDNA</th>
+      <th>Disease</th>
+      <th>Study</th>
+      <th title="Variant type = mutation class (SNV / Insertion / Deletion / Indel / MNV)">Variant type</th>
+      <th title="Consequence = functional effect on protein (Missense / Nonsense / Frameshift / etc.)">Consequence</th>
+      <th>Driver</th>
+    </tr>
 
-          <?php foreach ($rows as $r): ?>
-            <tr>
-              <td>
-                <a href="/variant_v2.php?id=<?= (int)$r["literature_variant_id"] ?>">
-                  <?= (int)$r["literature_variant_id"] ?>
-                </a>
-              </td>
+    <?php foreach ($rows as $r): ?>
+      <tr>
+        <td>
+          <a href="/variant_v2.php?id=<?= (int)$r["literature_variant_id"] ?>">
+            <?= (int)$r["literature_variant_id"] ?>
+          </a>
+        </td>
 
-              <td>
-                <a href="/gene_v2.php?q=<?= urlencode((string)$r["gene_symbol"]) ?>">
-                  <?= na($r["gene_symbol"] ?? null) ?>
-                </a>
-              </td>
+        <td>
+          <a href="/gene_v2.php?q=<?= urlencode((string)$r["gene_symbol"]) ?>">
+            <?= na($r["gene_symbol"] ?? null) ?>
+          </a>
+        </td>
 
-              <?php [$gv, $gvNote, $ucscGenome] = pick_genomic_variant_for_genome($r, $genome); ?>
-<td>
-  <?= na($gv ?? ($r["protein_change"] ?? null)) ?>
-  <div class="small" style="opacity:0.8;"><?= h($gvNote) ?></div>
-</td>
-              <td><?= na($r["cDNA_HGVS"] ?? null) ?></td>
+        <?php [$gv, $gvNote, $ucscGenome] = pick_genomic_variant_for_genome($r, $genome); ?>
+        <td>
+          <?= na($gv ?? ($r["protein_change"] ?? null)) ?>
+          <div class="small" style="opacity:0.8;"><?= h($gvNote) ?></div>
+        </td>
 
-              <td>
-                <?php if (!empty($r["disease_id"])): ?>
-                  <a href="/disease_v2.php?id=<?= (int)$r["disease_id"] ?>">
-                    <?= na($r["disease_name"] ?? null) ?>
-                  </a>
-                <?php else: ?>
-                  <?= na($r["disease_name"] ?? null) ?>
-                <?php endif; ?>
-              </td>
+        <td><?= na($r["cDNA_HGVS"] ?? null) ?></td>
 
-              <td>
-                <?php if (!empty($r["study_id"])): ?>
-                  <a href="/study_v2.php?id=<?= (int)$r["study_id"] ?>">
-                    <?= na($r["study_name_short"] ?? null) ?>
-                  </a>
-                <?php else: ?>
-                  <?= na($r["study_name_short"] ?? null) ?>
-                <?php endif; ?>
-              </td>
+        <td>
+          <?php if (!empty($r["disease_id"])): ?>
+            <a href="/disease_v2.php?id=<?= (int)$r["disease_id"] ?>">
+              <?= na($r["disease_name"] ?? null) ?>
+            </a>
+          <?php else: ?>
+            <?= na($r["disease_name"] ?? null) ?>
+          <?php endif; ?>
+        </td>
 
-              <td><?= na($r["variant_type"] ?? null) ?></td>
-              <td><?= na($r["consequence"] ?? null) ?></td>
-              <td><?= na($r["is_driver"] ?? null) ?></td>
-            </tr>
-          <?php endforeach; ?>
-        </table>
+        <td>
+          <?php if (!empty($r["study_id"])): ?>
+            <a href="/study_v2.php?id=<?= (int)$r["study_id"] ?>">
+              <?= na($r["study_name_short"] ?? null) ?>
+            </a>
+          <?php else: ?>
+            <?= na($r["study_name_short"] ?? null) ?>
+          <?php endif; ?>
+        </td>
+
+        <td><?= na($r["variant_type"] ?? null) ?></td>
+        <td><?= na($r["consequence"] ?? null) ?></td>
+        <td><?= na($r["is_driver"] ?? null) ?></td>
+      </tr>
+    <?php endforeach; ?>
+  </table>
+<?php endif; ?>
   </div>
 
 <?php require __DIR__ . "/partials/footer.php"; ?>

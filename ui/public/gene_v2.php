@@ -179,6 +179,7 @@ require __DIR__ . "/partials/header.php";
     <?php if (!$geneList): ?>
       <div class="small">No genes found in v_literature_summary_by_gene.</div>
     <?php else: ?>
+    <div class="table-wrap">
       <table class="browse-genes-table">
         <tr>
         <th><?= gene_sort_link('Gene', 'gene_symbol', $q, $sort, $dir) ?></th>
@@ -200,6 +201,7 @@ require __DIR__ . "/partials/header.php";
           </tr>
         <?php endforeach; ?>
       </table>
+      </div>
     <?php endif; ?>
   </div>
 
